@@ -1,0 +1,14 @@
+# ==============================================================================
+# Cluster Live Studio: Git Ignore
+# ==============================================================================
+
+# Build binaries and caches
+cl-binary/
+server_bin
+.cl_cache/
+.vscode/
+
+# Temporary and system files
+*.log
+*.tmp
+.DS_Store

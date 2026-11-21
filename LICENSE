@@ -1,0 +1,48 @@
+Cluster Community & Fair-Source License (CCFL v2.0 / Strict-Distribution)
+
+Copyright (c) 2026 Mohammad Zaid (zk-mohammad) / Cluster Organization
+Official Repository: https://github.com/cluster-lang/cluster-live
+Author Account: https://github.com/zk-mohammad
+All rights reserved.
+
+1. PERMITTED INDEPENDENT, ACADEMIC & RESEARCH USE:
+Permission is hereby granted, free of charge, to any individual developer,
+student, educator, academic researcher, non-profit organization, or community
+developer to obtain, test, run, self-host, and use this live web IDE and server
+("the Software") for personal, educational, and development purposes, subject to
+the conditions herein.
+
+2. SERVICE INTEGRITY, ANTI-TAMPERING & CANONICAL DISTRIBUTION:
+The Cluster Live Studio, server architecture, web compiler bridge, and IDE runtime
+belong exclusively to Mohammad Zaid (GitHub: zk-mohammad) and the official Cluster
+Organization (https://github.com/cluster-lang).
+
+To eliminate service tampering, security exploits, and unauthorized binary cloning:
+- Unauthorized duplication, modified distribution, rogue forks, and third-party
+  mirroring claiming official status are STRICTLY PROHIBITED.
+- Exactly ONE canonical repository distribution exists, officially published under
+  https://github.com/cluster-lang/cluster-live.
+- All duplicate copies, unauthorized forks, or third-party mirrors are strictly
+  INVALID and unauthorized.
+
+3. COMMERCIAL USE RESTRICTIONS:
+Hosting, deploying, offering as a paid cloud SaaS, or integrating this software into
+commercial closed-source platforms by for-profit corporate entities requires an
+explicit commercial license from the copyright holder.
+
+Commercial licensing inquiries: zkalamgir@proton.me
+
+4. CONTRIBUTIONS & STRICT PURE CLUSTER MANDATE:
+All backend contributions, request handlers, compilers, and server components
+must be written in 100% pure Cluster language (`.cl`). External backend runtimes
+(Node.js, Python, Rust, Go, etc.) are strictly forbidden. All core services must
+run natively and self-containedly via Cluster.
+
+5. WARRANTY DISCLAIMER:
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.

@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cluster Live Studio — Real-Time Compilation & Execution</title>
+    <link rel="stylesheet" href="/style.css">
+</head>
+<body>
+    <div id="app-container">
+        <!-- Top Navigation Bar -->
+        <header class="top-bar">
+            <div class="brand-section">
+                <div class="brand-logo">
+                    <span style="font-size: 20px;">⚡</span>
+                    <span>Cluster Live</span>
+                </div>
+                <span class="brand-badge">Studio v1.0</span>
+                <span class="server-badge">
+                    <span class="pulse-dot"></span>
+                    Pure Cluster HTTP
+                </span>
+            </div>
+
+            <div class="actions-section">
+                <select id="sample-select" class="select-control" title="Choose a code template">
+                    <option value="ui_ecommerce">🎨 Cluster UI: E-Commerce Storefront</option>
+                    <option value="ui_chat">🎨 Cluster UI: Modern Chat & Messaging</option>
+                    <option value="ui_advanced_controls">🎨 Cluster UI: 40 Advanced Controls Showcase</option>
+                    <option value="ui_enterprise">🎨 Cluster UI: 50 Widgets Enterprise Dashboard</option>
+                    <option value="ui_dashboard">🎨 Cluster UI: Analytics Dashboard</option>
+                    <option value="ui_profile">🎨 Cluster UI: Social Profile Card</option>
+                    <option value="ui_settings">🎨 Cluster UI: System Settings View</option>
+                    <option value="ui_multiplatform">🎨 Cluster UI: 1-to-3 Native Multi-Platform</option>
+                    <option value="model_transaction">Model & JSON (Transaction)</option>
+                    <option value="user_input">Interactive User Input (input)</option>
+                    <option value="greeting_demo">Greeting & Screen Output (pln)</option>
+                    <option value="hello_world">Hello World & Primitives</option>
+                    <option value="unquoted_import">Unquoted & Dotted Import</option>
+                    <option value="concurrency">Native Concurrency (spawn)</option>
+                    <option value="pattern_match">Pattern Matching (match/case)</option>
+                    <option value="fibonacci">Native Fibonacci Algorithm</option>
+                </select>
+
+                <select id="mode-select" class="select-control" title="Compilation Target Mode">
+                    <option value="run">⚡ Native Binary (-O3)</option>
+                    <option value="check">🔍 Pratt Type Check</option>
+                    <option value="llvm">⚙️ Direct LLVM IR</option>
+                </select>
+
+                <button id="btn-run" class="btn-run" title="Run Code (Ctrl + Enter / F9)">
+                    <span>▶ Run</span>
+                    <span style="opacity: 0.7; font-size: 11px;">(F9)</span>
+                </button>
+
+                <label class="toggle-container" title="Auto-compile and run in real-time as you type">
+                    <input type="checkbox" id="auto-run-toggle" style="display: none;">
+                    <span class="toggle-switch"></span>
+                    <span>Auto-Run</span>
+                </label>
+
+                <label class="toggle-container" title="Retro 2019 Turbo C++ Blue Screen Theme">
+                    <input type="checkbox" id="turbo-toggle" style="display: none;">
+                    <span class="toggle-switch"></span>
+                    <span>Turbo C++ Mode</span>
+                </label>
+
+                <button id="btn-clear" class="btn-secondary" title="Clear Output Window">
+                    <span>Clear</span>
+                </button>
+            </div>
+        </header>
+
+        <!-- Main Code Workspace -->
+        <main class="workspace">
+            <!-- Left Side: Code Editor -->
+            <section class="editor-panel">
+                <div class="panel-header">
+                    <div class="title">
+                        <span>📄 main.cl</span>
+                        <span style="color: #58a6ff; font-weight: normal; font-size: 11px;">(Cluster v1.0.0 Source)</span>
+                    </div>
+                    <div style="font-size: 11px;">UTF-8 • Tab: 4 spaces</div>
+                </div>
+                <div class="editor-wrapper">
+                    <pre id="line-numbers" class="line-numbers">1</pre>
+                    <textarea id="code-editor" class="code-editor" spellcheck="false" placeholder="Write Cluster Language code here..."></textarea>
+                </div>
+            </section>
+
+            <!-- Right Side: Real-time Terminal Output -->
+            <section class="output-panel">
+                <div class="tabs-nav">
+                    <button class="tab-btn active" data-tab="terminal">💻 Terminal Output</button>
+                    <button class="tab-btn" data-tab="preview">📱 UI Live Preview</button>
+                    <button class="tab-btn" data-tab="stdin">📥 Input (stdin)</button>
+                    <button class="tab-btn" data-tab="check">🔍 Pratt Diagnostics</button>
+                    <button class="tab-btn" data-tab="llvm">⚙️ LLVM 23 IR</button>
+                </div>
+
+                <div class="status-indicator">
+                    <span id="status-badge" class="status-badge">● Ready</span>
+                    <div style="display: flex; align-items: center; gap: 8px;">
+                        <span id="stdin-badge" class="input-badge" style="display: none;">⌨️ Interactive Input</span>
+                        <span id="status-time" style="color: var(--text-muted); font-family: var(--font-code);"></span>
+                    </div>
+                </div>
+
+                <div class="output-body">
+                    <div id="terminal-wrapper" class="terminal-wrapper">
+                        <pre id="terminal-output" class="terminal-view"></pre>
+                        
+                        <!-- Interactive Input Bar at bottom of Terminal -->
+                        <div id="terminal-input-bar" class="terminal-input-bar">
+                            <span class="prompt-icon">❯</span>
+                            <input type="text" id="stdin-quick-input" class="stdin-quick-input" placeholder="Type input here and press Enter (or click Run)..." autocomplete="off" spellcheck="false" />
+                            <button id="btn-send-input" class="btn-send-input" title="Run program with this input">Send ⏎</button>
+                        </div>
+                    </div>
+
+                    <!-- Multiline STDIN Tab View -->
+                    <div id="stdin-view" class="stdin-view" style="display: none;">
+                        <div class="stdin-header-bar">
+                            <span>Standard Input Stream (stdin) — Enter one line per input prompt</span>
+                            <button id="btn-clear-stdin" class="btn-xs">Clear Input</button>
+                        </div>
+                        <textarea id="stdin-multiline" class="stdin-multiline-input" placeholder="Enter input(s) here for your program.&#10;For example:&#10;Zaid&#10;123" spellcheck="false"></textarea>
+                    </div>
+
+                    <!-- UI Live Canvas & Device Preview (Android / Web) -->
+                    <div id="ui-preview-view" class="ui-preview-container" style="display: none;">
+                        <div class="ui-preview-toolbar">
+                            <div class="device-switch">
+                                <button id="btn-view-mobile" class="device-btn active">📱 Mobile Preview</button>
+                                <button id="btn-view-desktop" class="device-btn">💻 Desktop View</button>
+                                <button id="btn-view-xml" class="device-btn">🤖 Android XML</button>
+                                <button id="btn-view-swift" class="device-btn">🍎 Apple SwiftUI</button>
+                            </div>
+                            <span class="preview-badge">⚡ Real-time Native UI</span>
+                        </div>
+                        <div class="device-viewport">
+                            <div id="device-mockup" class="device-mockup mobile-frame">
+                                <div class="mobile-speaker"></div>
+                                <iframe id="preview-iframe" class="preview-iframe" sandbox="allow-scripts allow-modals" title="Live Cluster UI Canvas"></iframe>
+                            </div>
+                            <pre id="native-code-view" class="terminal-view" style="display: none; width: 100%; height: 100%; max-height: 520px; overflow: auto; padding: 16px; font-size: 12px; background: #0d1117; border: 1px solid #30363d; border-radius: 8px;"></pre>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </main>
+
+        <!-- Bottom Footer Status Bar -->
+        <footer class="status-bar">
+            <div class="status-left">
+                <span class="status-item">⚡ Toolchain: <strong>cl v1.0.0 (LLVM 23.0)</strong></span>
+                <span class="status-item">🌐 Server: <strong>http://localhost:8080</strong></span>
+                <span class="status-item">🚀 Target: <strong>x86_64-linux (Native)</strong></span>
+            </div>
+            <div class="status-right">
+                <span id="cursor-pos" class="status-item">Ln 1, Col 1</span>
+                <span class="status-item">100% Pure Cluster Language</span>
+            </div>
+        </footer>
+    </div>
+
+    <script src="/app.js"></script>
+</body>
+</html>
