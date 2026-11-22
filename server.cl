@@ -1,6 +1,8 @@
 // ==============================================================================
 // Cluster Live Studio — HTTP Server
 // 100% Pure Cluster Language Web Server & Live Compiler Engine
+// Multi-Backend Support: LLVM 24.0.0 (Primary) & CL-IL v1.0.0 (Secondary IL)
+// Contributor: Mohammad Zaid <zkalamgir@proton.me>
 // ==============================================================================
 
 import std/net.cl
@@ -64,10 +66,22 @@ fn make_http_response(status_line: string, content_type: string, body: string) -
     resp = resp + "Content-Length: " + str(len(body)) + "\r\n"
     resp = resp + "Access-Control-Allow-Origin: *\r\n"
     resp = resp + "Access-Control-Allow-Methods: GET, POST, OPTIONS\r\n"
-    resp = resp + "Access-Control-Allow-Headers: Content-Type\r\n"
+    resp = resp + "Access-Control-Allow-Headers: Content-Type, X-Backend\r\n"
     resp = resp + "Connection: close\r\n\r\n"
     resp = resp + body
     return resp
+
+fn has_substr(haystack: string, needle: string) -> bool:
+    let hlen: int = len(haystack)
+    let nlen: int = len(needle)
+    if hlen < nlen:
+        return false
+    let mut i: int = 0
+    while i <= hlen - nlen:
+        if substring(haystack, i, nlen) == needle:
+            return true
+        i = i + 1
+    return false
 
 fn find_stdin_separator(body: string) -> int:
     let blen: int = len(body)
@@ -109,6 +123,47 @@ fn execute_cluster_run(payload: string) -> string:
             return out_text
     return "Error: Execution did not produce output."
 
+fn execute_cluster_run_clil(payload: string) -> string:
+    let sep_idx: int = find_stdin_separator(payload)
+    let mut code: string = payload
+    let mut stdin_data: string = ""
+    if sep_idx >= 0:
+        code = substring(payload, 0, sep_idx)
+        let raw_stdin: string = substring(payload, sep_idx + 21, len(payload) - (sep_idx + 21))
+        stdin_data = trim_leading_newline(raw_stdin)
+
+    file_write("/tmp/cluster_live_code.cl", code)
+    file_write("/tmp/cluster_live_stdin.txt", stdin_data)
+    sys_run("rm -f /tmp/cluster_live.clil /tmp/cluster_live.opt.clil /tmp/cluster_live_clil.o /tmp/cluster_live_out.txt /tmp/cluster_live_clil_opt.txt")
+
+    // 1. Emit intermediate representation
+    sys_run("/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /tmp/cluster_live_clil_err.txt 2>&1")
+    
+    // 2. Parse & Optimize via CL-IL SSA pipeline
+    let mut opt_stats: string = ""
+    if file_exists("/tmp/cluster_live.clil") == 1:
+        sys_run("/home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1")
+        if file_exists("/tmp/cluster_live_clil_opt.txt") == 1:
+            opt_stats = file_read("/tmp/cluster_live_clil_opt.txt")
+        // 3. Compile direct ELF64 relocatable object
+        sys_run("/home/alamgir-zk/.local/bin/cl-il compile /tmp/cluster_live.opt.clil -o /tmp/cluster_live_clil.o > /tmp/cluster_live_clil_elf.txt 2>&1")
+
+    // 4. Run binary execution
+    let cmd: string = "timeout 60s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
+    sys_run(cmd)
+
+    let mut out_text: string = ""
+    if file_exists("/tmp/cluster_live_out.txt") == 1:
+        out_text = file_read("/tmp/cluster_live_out.txt")
+
+    let mut banner: string = "[CL-IL v1.0.0 Engine Active (Secondary Intermediate Language)]\n"
+    if len(opt_stats) > 0:
+        banner = banner + "✔ SSA Pipeline: " + opt_stats + "\n"
+    if file_exists("/tmp/cluster_live_clil.o") == 1:
+        banner = banner + "✔ Direct ELF64 Relocatable Object (/tmp/cluster_live_clil.o)\n"
+    banner = banner + "--------------------------------------------------------------------------------\n"
+    return banner + out_text
+
 fn execute_cluster_check(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
     let mut code: string = payload
@@ -140,6 +195,39 @@ fn execute_cluster_llvm(payload: string) -> string:
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         return file_read("/tmp/cluster_live_out.txt")
     return "Error: Could not emit LLVM IR."
+
+fn execute_cluster_clil(payload: string) -> string:
+    let sep_idx: int = find_stdin_separator(payload)
+    let mut code: string = payload
+    if sep_idx >= 0:
+        code = substring(payload, 0, sep_idx)
+    file_write("/tmp/cluster_live_code.cl", code)
+    sys_run("rm -f /tmp/cluster_live.clil /tmp/cluster_live.opt.clil /tmp/cluster_live_clil_err.txt /tmp/cluster_live_clil_opt.txt")
+    
+    // Step 1: Emit intermediate representation
+    let cmd1: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /tmp/cluster_live_clil_err.txt 2>&1"
+    sys_run(cmd1)
+
+    // Step 2: Run CL-IL parser and optimizer
+    if file_exists("/tmp/cluster_live.clil") == 1:
+        let cmd2: string = "/home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1"
+        sys_run(cmd2)
+        if file_exists("/tmp/cluster_live.opt.clil") == 1:
+            let opt_text: string = file_read("/tmp/cluster_live.opt.clil")
+            let mut stats_text: string = ""
+            if file_exists("/tmp/cluster_live_clil_opt.txt") == 1:
+                stats_text = file_read("/tmp/cluster_live_clil_opt.txt")
+            if len(opt_text) > 0:
+                let mut header: string = "; ==========================================================================\n"
+                header = header + "; Cluster Intermediate Language (CL-IL) v1.0.0 — SSA Optimized IR\n"
+                if len(stats_text) > 0:
+                    header = header + "; " + stats_text + "\n"
+                header = header + "; ==========================================================================\n\n"
+                return header + opt_text
+
+    if file_exists("/tmp/cluster_live_clil_err.txt") == 1:
+        return file_read("/tmp/cluster_live_clil_err.txt")
+    return "Error: Could not emit CL-IL IR."
 
 fn execute_file_save(payload: string) -> string:
     let plen: int = len(payload)
@@ -188,7 +276,8 @@ fn main() -> int:
     print("        ⚡ CLUSTER LIVE STUDIO (WEB IDE SERVER)          ")
     print("==========================================================")
     print("  Engine:   100% Pure Cluster Language HTTP Runtime")
-    print("  Compiler: cl v1.0.0 (LLVM 23.0 Backend)")
+    print("  Compiler: cl v1.0.0 (LLVM 24.0 Backend)")
+    print("  CL-IL:    CL-IL v1.0.0 (Cluster Intermediate Language)")
     print("  URL:      http://localhost:" + str(port))
     print("==========================================================")
     print("Server ready. Listening for live compilation requests...\n")
@@ -225,13 +314,31 @@ fn main() -> int:
         elif is_get_or_head and path == "/app.js":
             let js: string = file_read("web/app.js")
             resp = make_http_response("200 OK", "application/javascript; charset=utf-8", js)
+        elif is_get_or_head and path == "/ide_controller.js":
+            let js_ide: string = file_read("web/ide_controller.js")
+            resp = make_http_response("200 OK", "application/javascript; charset=utf-8", js_ide)
         elif is_get_or_head and path == "/api/health":
-            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\"}"
+            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"backends\": [\"llvm\", \"cl-il\"], \"cl_il_version\": \"1.0.0\"}"
             resp = make_http_response("200 OK", "application/json", h_json)
+        elif method == "POST" and (path == "/api/clil" or path == "/api/cl-il"):
+            let code_to_clil: string = find_http_body(raw_req)
+            let out_clil: string = execute_cluster_clil(code_to_clil)
+            resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_clil)
+        elif method == "POST" and (path == "/api/clil-run" or path == "/api/cl-il-run"):
+            let code_to_clil_run: string = find_http_body(raw_req)
+            let out_clil_run: string = execute_cluster_run_clil(code_to_clil_run)
+            resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_clil_run)
         elif method == "POST" and path == "/api/run":
             let code_to_run: string = find_http_body(raw_req)
-            let out_run: string = execute_cluster_run(code_to_run)
-            resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_run)
+            let mut use_clil: bool = false
+            if has_substr(raw_req, "X-Backend: cl-il") or has_substr(raw_req, "backend=cl-il"):
+                use_clil = true
+            if use_clil:
+                let out_clil_run: string = execute_cluster_run_clil(code_to_run)
+                resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_clil_run)
+            else:
+                let out_run: string = execute_cluster_run(code_to_run)
+                resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_run)
         elif method == "POST" and path == "/api/check":
             let code_to_check: string = find_http_body(raw_req)
             let out_check: string = execute_cluster_check(code_to_check)
@@ -248,7 +355,7 @@ fn main() -> int:
             let code_to_fmt: string = find_http_body(raw_req)
             let out_fmt: string = execute_cluster_format(code_to_fmt)
             resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_fmt)
-        elif method == "GET" and path == "/api/git-status":
+        elif is_get_or_head and path == "/api/git-status":
             let out_git: string = execute_git_status()
             resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_git)
         else:

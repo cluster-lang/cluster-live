@@ -645,6 +645,24 @@ document.addEventListener('DOMContentLoaded', () => {
     const lineNumbers = document.getElementById('line-numbers');
     const sampleSelect = document.getElementById('sample-select');
     const modeSelect = document.getElementById('mode-select');
+    const backendSelect = document.getElementById('backend-select');
+    let activeBackend = localStorage.getItem('cluster_backend') || 'llvm';
+    if (backendSelect) {
+        backendSelect.value = activeBackend;
+        backendSelect.addEventListener('change', () => {
+            activeBackend = backendSelect.value;
+            localStorage.setItem('cluster_backend', activeBackend);
+            statusBadge.className = 'status-badge';
+            statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : '● Engine: LLVM 24.0.0';
+            if (currentTab === 'cl-il') {
+                executeCode('cl-il');
+            } else if (currentTab === 'llvm') {
+                executeCode('llvm');
+            } else {
+                executeCode(modeSelect.value || 'run');
+            }
+        });
+    }
     const btnRun = document.getElementById('btn-run');
     const autoRunToggle = document.getElementById('auto-run-toggle');
     const turboToggle = document.getElementById('turbo-toggle');
@@ -1028,6 +1046,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 if (uiPreviewView) uiPreviewView.style.display = 'none';
                 if (currentTab === 'llvm') {
                     executeCode('llvm');
+                } else if (currentTab === 'cl-il') {
+                    executeCode('cl-il');
                 } else if (currentTab === 'check') {
                     executeCode('check');
                 } else {
@@ -1068,11 +1088,21 @@ document.addEventListener('DOMContentLoaded', () => {
                 }
             }
 
-            const endpoint = '/api/' + (mode || 'run');
+            let endpoint = '/api/' + (mode || 'run');
+            if (mode === 'cl-il') {
+                endpoint = '/api/clil';
+            } else if (mode === 'run' || !mode) {
+                if (activeBackend === 'cl-il') {
+                    endpoint = '/api/clil-run';
+                } else {
+                    endpoint = '/api/run';
+                }
+            }
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {
-                    'Content-Type': 'text/plain; charset=utf-8'
+                    'Content-Type': 'text/plain; charset=utf-8',
+                    'X-Backend': activeBackend
                 },
                 body: payload
             });
@@ -1135,8 +1165,10 @@ document.addEventListener('DOMContentLoaded', () => {
             const isFinishedBuild = resultText.includes('Finished build');
             const isPrattPass = resultText.includes('✔ Pratt Lexer') || resultText.includes('zkc2: ok');
             const isLlvmPass = (mode === 'llvm') && (resultText.includes('target triple') || resultText.includes('define '));
+            const isClilPass = (mode === 'cl-il') && (resultText.includes('ModuleID') || resultText.includes('define ') || resultText.includes('CL-IL'));
+            const isClilRunPass = resultText.includes('[CL-IL');
 
-            const isCompilerError = !isFinishedBuild && (
+            const isCompilerError = !isFinishedBuild && !isClilRunPass && (
                 resultText.includes('error[E') ||
                 (resultText.includes('zkc2:') && resultText.includes('error')) ||
                 resultText.includes('clang: error') ||
@@ -1144,10 +1176,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 resultText.includes('Syntax Error:') ||
                 resultText.includes('Import Error:') ||
                 resultText.includes('Error: Execution did not produce output.') ||
-                resultText.includes('Error: Could not emit LLVM IR.')
+                resultText.includes('Error: Could not emit LLVM IR.') ||
+                resultText.includes('Error: Could not emit CL-IL IR.')
             );
 
-            if (isFinishedBuild || isPrattPass || isLlvmPass || !isCompilerError) {
+            if (isFinishedBuild || isPrattPass || isLlvmPass || isClilPass || isClilRunPass || !isCompilerError) {
+                statusBadge.className = 'status-badge success';
+                statusBadge.textContent = activeBackend === 'cl-il' ? '✔ CL-IL Pipeline Succeeded' : '✔ Compilation Succeeded';
+            } else {
                 statusBadge.className = 'status-badge success';
                 statusBadge.textContent = '✔ Compilation Succeeded';
             } else {

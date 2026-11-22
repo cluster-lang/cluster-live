@@ -509,6 +509,21 @@ window.ClusterIDE = {
             consoleOut.innerText = output;
         });
     },
+    fetchClilIr: function() {
+        var editor = document.getElementById('cluster-code-editor');
+        var consoleOut = document.getElementById('ide-terminal-output');
+        if (!editor || !consoleOut) return;
+        this.switchConsoleTab('terminal');
+        consoleOut.innerText = 'Emitting SSA CL-IL IR...\n';
+        fetch('/api/clil', {
+            method: 'POST',
+            headers: { 'Content-Type': 'text/plain' },
+            body: editor.value
+        }).then(function(res) { return res.text(); })
+        .then(function(output) {
+            consoleOut.innerText = output;
+        });
+    },
     updatePreview: function(rawOutput) {
         var previewFrame = document.getElementById('ide-preview-frame');
         if (!previewFrame) return;
