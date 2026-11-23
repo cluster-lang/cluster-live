@@ -431,6 +431,12 @@ window.ClusterIDE = {
         var consoleOut = document.getElementById('ide-terminal-output');
         var statusBadge = document.getElementById('ide-status-pill');
         if (!editor || !consoleOut) return;
+        if (!editor.value || !editor.value.trim()) {
+            this.switchConsoleTab('terminal');
+            consoleOut.innerHTML = '<span style="color:#8b949e;">Ready. No code to run. Select a file or write Cluster code.</span>\n';
+            if (statusBadge) { statusBadge.innerText = '● Ready'; statusBadge.style.color = '#8b949e'; }
+            return;
+        }
         this.switchConsoleTab('terminal');
         if (statusBadge) { statusBadge.innerText = '⚡ Compiling...'; statusBadge.style.color = '#d29922'; }
         consoleOut.innerHTML = '<span style="color:#8b949e;">Compiling target (-O3) via Cluster LLVM pipeline...</span>\n';

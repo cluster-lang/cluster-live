@@ -2,14 +2,20 @@
 # Cluster Live Studio: Git Ignore
 # ==============================================================================
 
-# Build binaries and caches
+# Build binaries, daemons and caches
 cl-binary/
 server_bin
 .cl_cache/
 .vscode/
 ide-plans/
+.server.pid
 
-# Temporary and system files
+# Python & bytecode exclusions
+*.py
+*.pyc
+__pycache__/
+
+# Logs and temporary files
 *.log
 *.tmp
 .DS_Store

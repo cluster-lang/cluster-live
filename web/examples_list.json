@@ -1,0 +1,1242 @@
+[
+  {
+    "filename": "001-strings-intro.cl",
+    "title": "Topic: C++ Strings Introduction (W3Schools cpp_strings.asp Example 1)"
+  },
+  {
+    "filename": "002-strings-intro.cl",
+    "title": "Topic: C++ Strings Introduction (W3Schools cpp_strings.asp Example 2)"
+  },
+  {
+    "filename": "003-strings-concat.cl",
+    "title": "Topic: String Concatenation with + (W3Schools cpp_strings_concat.asp Example 1)"
+  },
+  {
+    "filename": "004-strings-concat.cl",
+    "title": "Topic: String Concatenation with Space (W3Schools cpp_strings_concat.asp Example 2)"
+  },
+  {
+    "filename": "005-strings-concat.cl",
+    "title": "Topic: String Append / Concatenation (W3Schools cpp_strings_concat.asp Example 3)"
+  },
+  {
+    "filename": "006-strings-numbers.cl",
+    "title": "Topic: Numbers vs Strings - Adding Numbers (W3Schools cpp_strings_numbers.asp Example 1)"
+  },
+  {
+    "filename": "007-strings-numbers.cl",
+    "title": "Topic: Numbers vs Strings - String Concatenation (W3Schools cpp_strings_numbers.asp Example 2)"
+  },
+  {
+    "filename": "008-strings-length.cl",
+    "title": "Topic: String Length (W3Schools cpp_strings_length.asp Example 1)"
+  },
+  {
+    "filename": "009-strings-length.cl",
+    "title": "Topic: String Size / Length (W3Schools cpp_strings_length.asp Example 2)"
+  },
+  {
+    "filename": "010-strings-access.cl",
+    "title": "Topic: Accessing Characters by Index (W3Schools cpp_strings_access.asp Example 1)"
+  },
+  {
+    "filename": "011-strings-access.cl",
+    "title": "Topic: Accessing Second Character (W3Schools cpp_strings_access.asp Example 2)"
+  },
+  {
+    "filename": "012-strings-access.cl",
+    "title": "Topic: Accessing Last Character (W3Schools cpp_strings_access.asp Example 3)"
+  },
+  {
+    "filename": "013-strings-access.cl",
+    "title": "Topic: Modifying String Characters (W3Schools cpp_strings_access.asp Example 4)"
+  },
+  {
+    "filename": "014-strings-access.cl",
+    "title": "Topic: Character Access and Replacement (W3Schools cpp_strings_access.asp Example 5)"
+  },
+  {
+    "filename": "015-strings-escape.cl",
+    "title": "Topic: Escape Characters - Double Quotes (W3Schools cpp_strings_esc.asp Example 1)"
+  },
+  {
+    "filename": "016-strings-escape.cl",
+    "title": "Topic: Escape Characters - Single Quote (W3Schools cpp_strings_esc.asp Example 2)"
+  },
+  {
+    "filename": "017-strings-escape.cl",
+    "title": "Topic: Escape Characters - Backslash (W3Schools cpp_strings_esc.asp Example 3)"
+  },
+  {
+    "filename": "018-strings-escape.cl",
+    "title": "Topic: Escape Characters - Newline (W3Schools cpp_strings_esc.asp Example 4)"
+  },
+  {
+    "filename": "019-strings-escape.cl",
+    "title": "Topic: Escape Characters - Horizontal Tab (W3Schools cpp_strings_esc.asp Example 5)"
+  },
+  {
+    "filename": "020-strings-input.cl",
+    "title": "Topic: String User Input (W3Schools cpp_strings_input.asp Example 1)"
+  },
+  {
+    "filename": "021-strings-input.cl",
+    "title": "Topic: User Input Strings (W3Schools cpp_strings_input.asp Example 2)"
+  },
+  {
+    "filename": "022-strings-input.cl",
+    "title": "Topic: Reading Full Line with Spaces (W3Schools cpp_strings_input.asp Example 3)"
+  },
+  {
+    "filename": "023-strings-namespace.cl",
+    "title": "Topic: Omitting Namespace (W3Schools cpp_strings_namespace.asp Example 1)"
+  },
+  {
+    "filename": "024-strings-cstyle.cl",
+    "title": "Topic: Strings vs C-Style Character Arrays (W3Schools cpp_strings_cstyle.asp Example 1)"
+  },
+  {
+    "filename": "025-strings-convert.cl",
+    "title": "Topic: String Conversion - stoi (W3Schools cpp_strings_convert.asp Example 1)"
+  },
+  {
+    "filename": "026-strings-convert.cl",
+    "title": "Topic: String Conversion - stod (W3Schools cpp_strings_convert.asp Example 2)"
+  },
+  {
+    "filename": "027-strings-convert.cl",
+    "title": "Topic: Integer to String - to_string (W3Schools cpp_strings_convert.asp Example 3)"
+  },
+  {
+    "filename": "028-math.cl",
+    "title": "Topic: C++ Math - max Function (W3Schools cpp_math.asp Example 1)"
+  },
+  {
+    "filename": "029-math.cl",
+    "title": "Topic: C++ Math - min Function (W3Schools cpp_math.asp Example 2)"
+  },
+  {
+    "filename": "030-math.cl",
+    "title": "Topic: C++ Math Functions - sqrt, round, log (W3Schools cpp_math.asp Example 3)"
+  },
+  {
+    "filename": "031-booleans.cl",
+    "title": "Topic: C++ Booleans - Boolean Values (W3Schools cpp_booleans.asp Example 1)"
+  },
+  {
+    "filename": "032-booleans.cl",
+    "title": "Topic: C++ Booleans - boolalpha / Text Representation (W3Schools cpp_booleans.asp Example 2)"
+  },
+  {
+    "filename": "033-booleans.cl",
+    "title": "Topic: C++ Booleans - Numeric vs Textual Output (W3Schools cpp_booleans.asp Example 3)"
+  },
+  {
+    "filename": "034-booleans-expressions.cl",
+    "title": "Topic: Boolean Expressions - Comparison (W3Schools cpp_booleans_expressions.asp Example 1)"
+  },
+  {
+    "filename": "035-booleans-expressions.cl",
+    "title": "Topic: Boolean Expressions - Direct Literal Comparison (W3Schools cpp_booleans_expressions.asp Example 2)"
+  },
+  {
+    "filename": "036-booleans-expressions.cl",
+    "title": "Topic: Boolean Expressions - Equality Comparison (W3Schools cpp_booleans_expressions.asp Example 3)"
+  },
+  {
+    "filename": "037-booleans-expressions.cl",
+    "title": "Topic: Boolean Expressions - False Equality Check (W3Schools cpp_booleans_expressions.asp Example 4)"
+  },
+  {
+    "filename": "038-booleans-expressions.cl",
+    "title": "Topic: Boolean Expressions - Storing in Variable (W3Schools cpp_booleans_expressions.asp Example 5)"
+  },
+  {
+    "filename": "039-booleans-reallife.cl",
+    "title": "Topic: Booleans Real-Life Example - Age Verification (W3Schools cpp_booleans_reallife.asp Example 1)"
+  },
+  {
+    "filename": "040-booleans-reallife.cl",
+    "title": "Topic: Booleans Real-Life Example - Conditional Logic (W3Schools cpp_booleans_reallife.asp Example 2)"
+  },
+  {
+    "filename": "041-conditions-if.cl",
+    "title": "Topic: C++ Conditions - The if Statement (W3Schools cpp_conditions.asp Example 1)"
+  },
+  {
+    "filename": "042-conditions-if.cl",
+    "title": "Topic: C++ Conditions - if with Variables (W3Schools cpp_conditions.asp Example 2)"
+  },
+  {
+    "filename": "043-conditions-if.cl",
+    "title": "Topic: C++ Conditions - if with Boolean Variable (W3Schools cpp_conditions.asp Example 3)"
+  },
+  {
+    "filename": "044-conditions-else.cl",
+    "title": "Topic: C++ Conditions - The else Statement (W3Schools cpp_conditions_else.asp Example 1)"
+  },
+  {
+    "filename": "045-conditions-else.cl",
+    "title": "Topic: C++ Conditions - else with Boolean (W3Schools cpp_conditions_else.asp Example 2)"
+  },
+  {
+    "filename": "046-conditions-elseif.cl",
+    "title": "Topic: C++ Conditions - else if Statement (W3Schools cpp_conditions_elseif.asp Example 1)"
+  },
+  {
+    "filename": "047-conditions-elseif.cl",
+    "title": "Topic: C++ Conditions - else if with Booleans (W3Schools cpp_conditions_elseif.asp Example 2)"
+  },
+  {
+    "filename": "048-conditions-ternary.cl",
+    "title": "Topic: C++ Shorthand if...else Comparison (W3Schools cpp_conditions_shorthand.asp Example 1)"
+  },
+  {
+    "filename": "049-conditions-ternary.cl",
+    "title": "Topic: C++ Shorthand if...else (Ternary Operator) (W3Schools cpp_conditions_shorthand.asp Example 2)"
+  },
+  {
+    "filename": "050-conditions-ternary.cl",
+    "title": "Topic: C++ Direct Output of Ternary (W3Schools cpp_conditions_shorthand.asp Example 3)"
+  },
+  {
+    "filename": "051-conditions-ternary.cl",
+    "title": "Topic: C++ Nested Ternary (W3Schools cpp_conditions_shorthand.asp Example 4)"
+  },
+  {
+    "filename": "052-conditions-nested.cl",
+    "title": "Topic: C++ Nested if Statements (W3Schools cpp_conditions_nested.asp Example 1)"
+  },
+  {
+    "filename": "053-conditions-nested.cl",
+    "title": "Topic: C++ Nested if...else (W3Schools cpp_conditions_nested.asp Example 2)"
+  },
+  {
+    "filename": "054-conditions-logical.cl",
+    "title": "Topic: C++ Logical AND (&& / and) (W3Schools cpp_conditions_logical.asp Example 1)"
+  },
+  {
+    "filename": "055-conditions-logical.cl",
+    "title": "Topic: C++ Logical OR (|| / or) (W3Schools cpp_conditions_logical.asp Example 2)"
+  },
+  {
+    "filename": "056-conditions-logical.cl",
+    "title": "Topic: C++ Logical NOT (! / not) (W3Schools cpp_conditions_logical.asp Example 3)"
+  },
+  {
+    "filename": "057-conditions-logical.cl",
+    "title": "Topic: C++ Complex Logical Conditions (W3Schools cpp_conditions_logical.asp Example 4)"
+  },
+  {
+    "filename": "058-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Door Lock Code (W3Schools cpp_conditions_reallife.asp Example 1)"
+  },
+  {
+    "filename": "059-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Number Sign (W3Schools cpp_conditions_reallife.asp Example 2)"
+  },
+  {
+    "filename": "060-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Voting Eligibility (W3Schools cpp_conditions_reallife.asp Example 3)"
+  },
+  {
+    "filename": "061-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Voting & Citizenship (W3Schools cpp_conditions_reallife.asp Example 4)"
+  },
+  {
+    "filename": "062-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Even or Odd Check (W3Schools cpp_conditions_reallife.asp Example 5)"
+  },
+  {
+    "filename": "063-conditions-reallife.cl",
+    "title": "Topic: Real-Life Example - Weather Temperature Ranges (W3Schools cpp_conditions_reallife.asp Example 6)"
+  },
+  {
+    "filename": "064-switch.cl",
+    "title": "Topic: C++ Switch Statement (W3Schools cpp_switch.asp Example 1)"
+  },
+  {
+    "filename": "065-switch.cl",
+    "title": "Topic: C++ Switch with Default (W3Schools cpp_switch.asp Example 2)"
+  },
+  {
+    "filename": "066-while-loop.cl",
+    "title": "Topic: C++ While Loop (W3Schools cpp_while_loop.asp Example 1)"
+  },
+  {
+    "filename": "067-while-loop.cl",
+    "title": "Topic: While Loop Countdown (W3Schools cpp_while_loop.asp Example 2)"
+  },
+  {
+    "filename": "068-do-while-loop.cl",
+    "title": "Topic: C++ Do/While Loop (W3Schools cpp_do_while_loop.asp Example 1)"
+  },
+  {
+    "filename": "069-do-while-loop.cl",
+    "title": "Topic: Do/While Guarantees At Least One Execution (W3Schools cpp_do_while_loop.asp Example 2)"
+  },
+  {
+    "filename": "070-while-loop-reallife.cl",
+    "title": "Topic: While Loop Real-Life - Countdown (W3Schools cpp_while_loop_reallife.asp Example 1)"
+  },
+  {
+    "filename": "071-while-loop-reallife.cl",
+    "title": "Topic: While Loop Real-Life - Step Counting (W3Schools cpp_while_loop_reallife.asp Example 2)"
+  },
+  {
+    "filename": "072-while-loop-reallife.cl",
+    "title": "Topic: While Loop Real-Life - Reverse a Number (W3Schools cpp_while_loop_reallife.asp Example 3)"
+  },
+  {
+    "filename": "073-while-loop-reallife.cl",
+    "title": "Topic: While Loop Real-Life - Yatzy Game Loop (W3Schools cpp_while_loop_reallife.asp Example 4)"
+  },
+  {
+    "filename": "074-for-loop.cl",
+    "title": "Topic: C++ For Loop (W3Schools cpp_for_loop.asp Example 1)"
+  },
+  {
+    "filename": "075-for-loop.cl",
+    "title": "Topic: For Loop with Step (W3Schools cpp_for_loop.asp Example 2)"
+  },
+  {
+    "filename": "076-for-loop.cl",
+    "title": "Topic: For Loop Summing Numbers (W3Schools cpp_for_loop.asp Example 3)"
+  },
+  {
+    "filename": "077-for-loop.cl",
+    "title": "Topic: Decrementing For Loop (W3Schools cpp_for_loop.asp Example 4)"
+  },
+  {
+    "filename": "078-for-loop-nested.cl",
+    "title": "Topic: Nested For Loops (W3Schools cpp_for_loop_nested.asp Example 1)"
+  },
+  {
+    "filename": "079-for-loop-nested.cl",
+    "title": "Topic: Nested Loops - Multiplication Table (W3Schools cpp_for_loop_nested.asp Example 2)"
+  },
+  {
+    "filename": "080-for-loop-foreach.cl",
+    "title": "Topic: The foreach Loop (W3Schools cpp_for_loop_foreach.asp Example 1)"
+  },
+  {
+    "filename": "081-for-loop-foreach.cl",
+    "title": "81. For-Each Loop Over String Characters"
+  },
+  {
+    "filename": "082-for-loop-reallife.cl",
+    "title": "82. Loop Stepping by 10 (0 to 100)"
+  },
+  {
+    "filename": "083-for-loop-reallife.cl",
+    "title": "83. Loop Stepping by 2 (Even numbers 0 to 10)"
+  },
+  {
+    "filename": "084-for-loop-reallife.cl",
+    "title": "84. Loop Stepping by 2 (Odd numbers 1 to 9)"
+  },
+  {
+    "filename": "085-for-loop-reallife.cl",
+    "title": "85. Powers of 2 Geometric Progression (2 to 512)"
+  },
+  {
+    "filename": "086-for-loop-reallife.cl",
+    "title": "86. Multiplication Table of 2"
+  },
+  {
+    "filename": "087-break-continue.cl",
+    "title": "87. Loop Break Statement"
+  },
+  {
+    "filename": "088-break-continue.cl",
+    "title": "88. Loop Continue Statement"
+  },
+  {
+    "filename": "089-break-continue.cl",
+    "title": "89. While Loop with Break"
+  },
+  {
+    "filename": "090-break-continue.cl",
+    "title": "90. While Loop with Continue"
+  },
+  {
+    "filename": "091-arrays.cl",
+    "title": "91. Declaring and Accessing Array Elements"
+  },
+  {
+    "filename": "092-arrays.cl",
+    "title": "92. Modifying Array Elements"
+  },
+  {
+    "filename": "093-arrays-loop.cl",
+    "title": "93. Looping Through an Array with Index"
+  },
+  {
+    "filename": "094-arrays-loop.cl",
+    "title": "94. Looping Through an Array with Index and Value"
+  },
+  {
+    "filename": "095-arrays-loop.cl",
+    "title": "95. For-Each Loop Over String Array"
+  },
+  {
+    "filename": "096-arrays-loop.cl",
+    "title": "96. Looping Through Integer Array with Index"
+  },
+  {
+    "filename": "097-arrays-loop.cl",
+    "title": "97. For-Each Loop Over Integer Array"
+  },
+  {
+    "filename": "098-arrays-loop.cl",
+    "title": "98. For-Each Loop Over 5 Strings"
+  },
+  {
+    "filename": "099-arrays-omit.cl",
+    "title": "99. Pre-allocated Array Population by Index"
+  },
+  {
+    "filename": "100-arrays-omit.cl",
+    "title": "100. Array Initialization Without Explicit Length"
+  },
+  {
+    "filename": "101-arrays-omit.cl",
+    "title": "101. Fixed Capacity Arrays vs Dynamic Collections"
+  },
+  {
+    "filename": "102-arrays-omit.cl",
+    "title": "102. Dynamic Vector Append with .push()"
+  },
+  {
+    "filename": "103-arrays-size.cl",
+    "title": "103. Memory Size of Array"
+  },
+  {
+    "filename": "104-arrays-size.cl",
+    "title": "104. Array Length Calculation"
+  },
+  {
+    "filename": "105-arrays-size.cl",
+    "title": "105. Loop with Dynamic Array Length"
+  },
+  {
+    "filename": "106-arrays-size.cl",
+    "title": "106. Loop Over String Array Using Dynamic Length"
+  },
+  {
+    "filename": "107-arrays-size.cl",
+    "title": "107. Idiomatic For-Each Array Iteration"
+  },
+  {
+    "filename": "108-arrays-reallife.cl",
+    "title": "108. Real-Life Example: Calculate Average Age"
+  },
+  {
+    "filename": "109-arrays-reallife.cl",
+    "title": "109. Real-Life Example: Find Lowest Age in Array"
+  },
+  {
+    "filename": "110-arrays-multi.cl",
+    "title": "110. Accessing 2D Array Elements"
+  },
+  {
+    "filename": "111-arrays-multi.cl",
+    "title": "111. Modifying 2D Array Elements"
+  },
+  {
+    "filename": "112-arrays-multi.cl",
+    "title": "112. Nested Loops Over 2D Array"
+  },
+  {
+    "filename": "113-arrays-multi.cl",
+    "title": "113. 3D Array Traversal with Triple Nested Loops"
+  },
+  {
+    "filename": "114-structs.cl",
+    "title": "114. Structs / Models Declaration and Member Access"
+  },
+  {
+    "filename": "115-structs.cl",
+    "title": "115. Multiple Model Instances"
+  },
+  {
+    "filename": "116-structs.cl",
+    "title": "116. Named Structures"
+  },
+  {
+    "filename": "117-structs.cl",
+    "title": "117. Student Model with Multiple Types"
+  },
+  {
+    "filename": "118-enum.cl",
+    "title": "118. Enumeration Declaration and Default Numbering"
+  },
+  {
+    "filename": "119-enum.cl",
+    "title": "119. Enum with Explicit Constant Values"
+  },
+  {
+    "filename": "120-enum.cl",
+    "title": "120. Enum with Starting Offset Value"
+  },
+  {
+    "filename": "121-enum.cl",
+    "title": "121. Enum in Multi-branch Conditional / Switch"
+  },
+  {
+    "filename": "122-references.cl",
+    "title": "122. Creating References"
+  },
+  {
+    "filename": "123-references.cl",
+    "title": "123. Modifying References"
+  },
+  {
+    "filename": "124-references-memory.cl",
+    "title": "124. Memory Address Operator (&)"
+  },
+  {
+    "filename": "125-pointers.cl",
+    "title": "125. Creating and Using Pointers"
+  },
+  {
+    "filename": "126-pointers.cl",
+    "title": "126. Pointer Variables"
+  },
+  {
+    "filename": "127-pointers-dereference.cl",
+    "title": "127. Dereference Operator (*)"
+  },
+  {
+    "filename": "128-pointers-modify.cl",
+    "title": "128. Modifying Pointers and Values"
+  },
+  {
+    "filename": "129-memory-management.cl",
+    "title": "129. Memory Management and Data Types Size"
+  },
+  {
+    "filename": "130-smart-pointers.cl",
+    "title": "130. Smart Pointers (Box / Unique Pointer)"
+  },
+  {
+    "filename": "131-smart-pointers.cl",
+    "title": "131. Shared Pointers and Reference Counting"
+  },
+  {
+    "filename": "132-functions.cl",
+    "title": "132. Function Declaration and Invocation"
+  },
+  {
+    "filename": "133-functions.cl",
+    "title": "133. Multiple Function Calls"
+  },
+  {
+    "filename": "134-functions.cl",
+    "title": "134. Function Definition Order and Forward Resolution"
+  },
+  {
+    "filename": "135-functions.cl",
+    "title": "135. Function Declarations and Definitions"
+  },
+  {
+    "filename": "136-function-param.cl",
+    "title": "136. Function Parameters"
+  },
+  {
+    "filename": "137-function-default.cl",
+    "title": "137. Default Function Parameters"
+  },
+  {
+    "filename": "138-function-multiple.cl",
+    "title": "138. Multiple Function Parameters"
+  },
+  {
+    "filename": "139-function-return.cl",
+    "title": "139. Return Values"
+  },
+  {
+    "filename": "140-function-return.cl",
+    "title": "140. Functions with Two Parameters"
+  },
+  {
+    "filename": "141-function-return.cl",
+    "title": "141. Storing Function Returns in Variables"
+  },
+  {
+    "filename": "142-function-return.cl",
+    "title": "142. Function Calls inside Loops"
+  },
+  {
+    "filename": "143-function-reference.cl",
+    "title": "143. Pass by Reference"
+  },
+  {
+    "filename": "144-function-reference.cl",
+    "title": "144. Swapping Variables via Reference"
+  },
+  {
+    "filename": "145-function-reference.cl",
+    "title": "145. Pass String by Reference"
+  },
+  {
+    "filename": "146-function-array.cl",
+    "title": "146. Passing Arrays to Functions"
+  },
+  {
+    "filename": "147-function-structures.cl",
+    "title": "147. Passing Models / Structs to Functions"
+  },
+  {
+    "filename": "148-function-structures.cl",
+    "title": "148. Modifying Models / Structs via Reference"
+  },
+  {
+    "filename": "149-function-reallife.cl",
+    "title": "149. Real-Life Example: Fahrenheit to Celsius Converter"
+  },
+  {
+    "filename": "150-function-overloading.cl",
+    "title": "150. Distinct Function Names for Different Types"
+  },
+  {
+    "filename": "151-function-overloading.cl",
+    "title": "151. Function Overloading by Type"
+  },
+  {
+    "filename": "152-function-overloading.cl",
+    "title": "152. Function Overloading by Arity"
+  },
+  {
+    "filename": "153-scope.cl",
+    "title": "153. Local Variable Scope"
+  },
+  {
+    "filename": "154-scope.cl",
+    "title": "154. Scope Boundaries (Compilation Restriction Demonstration)"
+  },
+  {
+    "filename": "155-scope.cl",
+    "title": "155. Global Variable Scope"
+  },
+  {
+    "filename": "156-scope.cl",
+    "title": "156. Variable Shadowing"
+  },
+  {
+    "filename": "157-scope.cl",
+    "title": "157. Global Variable Mutation"
+  },
+  {
+    "filename": "158-functions-recursion.cl",
+    "title": "158. Function Recursion Sum"
+  },
+  {
+    "filename": "159-functions-recursion.cl",
+    "title": "159. Function Recursion Countdown"
+  },
+  {
+    "filename": "160-functions-recursion.cl",
+    "title": "160. Function Recursion Factorial"
+  },
+  {
+    "filename": "161-functions-lambda.cl",
+    "title": "161. Lambda Hello World"
+  },
+  {
+    "filename": "162-functions-lambda.cl",
+    "title": "162. Lambda with Parameters"
+  },
+  {
+    "filename": "163-functions-lambda.cl",
+    "title": "163. Higher-Order Function Taking Function Parameter"
+  },
+  {
+    "filename": "164-functions-lambda.cl",
+    "title": "164. Lambda Inside a Loop"
+  },
+  {
+    "filename": "165-functions-lambda.cl",
+    "title": "165. Lambda Capture by Value"
+  },
+  {
+    "filename": "166-functions-lambda.cl",
+    "title": "166. Lambda Capture by Reference"
+  },
+  {
+    "filename": "167-classes.cl",
+    "title": "167. Classes and Objects Basics"
+  },
+  {
+    "filename": "168-classes.cl",
+    "title": "168. Multiple Objects of a Class"
+  },
+  {
+    "filename": "169-classes.cl",
+    "title": "169. Multiple Objects Example - Books"
+  },
+  {
+    "filename": "170-class-methods.cl",
+    "title": "170. Class Methods Inside Class"
+  },
+  {
+    "filename": "171-class-methods.cl",
+    "title": "171. Class Methods Outside Class Declaration"
+  },
+  {
+    "filename": "172-class-methods.cl",
+    "title": "172. Class Method with Parameters Mutating State"
+  },
+  {
+    "filename": "173-class-methods.cl",
+    "title": "173. Dog Class Bark Method"
+  },
+  {
+    "filename": "174-constructors.cl",
+    "title": "174. Default Constructor"
+  },
+  {
+    "filename": "175-constructors.cl",
+    "title": "175. Constructor with Parameters"
+  },
+  {
+    "filename": "176-constructors.cl",
+    "title": "176. Constructor Defined Outside Class"
+  },
+  {
+    "filename": "177-constructors-overloading.cl",
+    "title": "177. Constructor Overloading"
+  },
+  {
+    "filename": "178-destructors.cl",
+    "title": "178. Destructors Basics"
+  },
+  {
+    "filename": "179-destructors.cl",
+    "title": "179. Scope-Based Destructor Lifecycle"
+  },
+  {
+    "filename": "180-destructors.cl",
+    "title": "180. Destructor Resource Cleanup"
+  },
+  {
+    "filename": "181-this-pointer.cl",
+    "title": "181. Self / This Reference in Constructor"
+  },
+  {
+    "filename": "182-this-pointer.cl",
+    "title": "182. Self / This Pointer in Methods"
+  },
+  {
+    "filename": "183-access-specifiers.cl",
+    "title": "183. Public Access Specifiers"
+  },
+  {
+    "filename": "184-access-specifiers.cl",
+    "title": "184. Public vs Private Access Specifiers"
+  },
+  {
+    "filename": "185-encapsulation.cl",
+    "title": "185. Encapsulation with Getters and Setters"
+  },
+  {
+    "filename": "186-friend-function.cl",
+    "title": "186. Friend Function"
+  },
+  {
+    "filename": "187-inheritance.cl",
+    "title": "187. Inheritance"
+  },
+  {
+    "filename": "188-inheritance-multilevel.cl",
+    "title": "188. Multilevel Inheritance"
+  },
+  {
+    "filename": "189-inheritance-multiple.cl",
+    "title": "189. Multiple Inheritance"
+  },
+  {
+    "filename": "190-inheritance-access.cl",
+    "title": "190. Protected Access Specifier in Inheritance"
+  },
+  {
+    "filename": "191-polymorphism.cl",
+    "title": "191. Polymorphism Basics"
+  },
+  {
+    "filename": "192-virtual-functions.cl",
+    "title": "192. Non-Virtual Function Call"
+  },
+  {
+    "filename": "193-virtual-functions.cl",
+    "title": "193. Virtual Function Override"
+  },
+  {
+    "filename": "194-abstract-classes.cl",
+    "title": "194. Abstract Classes / Pure Virtual Function"
+  },
+  {
+    "filename": "195-abstract-classes.cl",
+    "title": "195. Polymorphic Iteration over Abstract Base"
+  },
+  {
+    "filename": "196-operator-overloading.cl",
+    "title": "196. Operator Overloading (+)"
+  },
+  {
+    "filename": "197-operator-overloading.cl",
+    "title": "197. Operator Overloading (==)"
+  },
+  {
+    "filename": "198-operator-overloading.cl",
+    "title": "198. Stream Output Formatting"
+  },
+  {
+    "filename": "199-templates.cl",
+    "title": "199. Function Templates"
+  },
+  {
+    "filename": "200-templates.cl",
+    "title": "200. Class Templates"
+  },
+  {
+    "filename": "201-templates.cl",
+    "title": "201. Multiple Template Parameters"
+  },
+  {
+    "filename": "202-files.cl",
+    "title": "202. Files and File Reading"
+  },
+  {
+    "filename": "203-date.cl",
+    "title": "203. Current Date and Time"
+  },
+  {
+    "filename": "204-date.cl",
+    "title": "204. Creating a Specific Timestamp"
+  },
+  {
+    "filename": "205-date.cl",
+    "title": "205. Day of Week Lookup"
+  },
+  {
+    "filename": "206-date.cl",
+    "title": "206. Hour of Day"
+  },
+  {
+    "filename": "207-date.cl",
+    "title": "207. asctime Formatting"
+  },
+  {
+    "filename": "208-date.cl",
+    "title": "208. mktime Automatic Correction"
+  },
+  {
+    "filename": "209-date.cl",
+    "title": "209. strftime Multi-Format"
+  },
+  {
+    "filename": "210-date.cl",
+    "title": "210. difftime Difference Calculation"
+  },
+  {
+    "filename": "211-date.cl",
+    "title": "211. Measuring Execution Duration"
+  },
+  {
+    "filename": "212-errors.cl",
+    "title": "212. Syntax Error Demonstration (Corrected in Cluster)"
+  },
+  {
+    "filename": "213-errors.cl",
+    "title": "213. Identifier Scope Demonstration (Corrected in Cluster)"
+  },
+  {
+    "filename": "214-errors.cl",
+    "title": "214. Type Mismatch Demonstration (Corrected in Cluster)"
+  },
+  {
+    "filename": "215-exceptions.cl",
+    "title": "215. Exceptions / Age Check Underage"
+  },
+  {
+    "filename": "216-exceptions.cl",
+    "title": "216. Exceptions / Age Check Overage"
+  },
+  {
+    "filename": "217-exceptions.cl",
+    "title": "217. Custom Exception Error Code"
+  },
+  {
+    "filename": "218-exceptions.cl",
+    "title": "218. Catch-All Exception Handler"
+  },
+  {
+    "filename": "219-input-validation.cl",
+    "title": "219. Input Validation Loop"
+  },
+  {
+    "filename": "220-input-validation.cl",
+    "title": "220. Range Validation Loop"
+  },
+  {
+    "filename": "221-input-validation.cl",
+    "title": "221. Non-Empty String Validation"
+  },
+  {
+    "filename": "222-problem-solving.cl",
+    "title": "222. Celsius to Fahrenheit Conversion"
+  },
+  {
+    "filename": "223-problem-solving.cl",
+    "title": "223. Reusable Conversion Function"
+  },
+  {
+    "filename": "224-problem-solving-logic.cl",
+    "title": "224. Aggregation, Max and Search Logic"
+  },
+  {
+    "filename": "225-problem-solving-tests.cl",
+    "title": "225. Simple Parity Test"
+  },
+  {
+    "filename": "226-problem-solving-tests.cl",
+    "title": "226. Test Table Suite"
+  },
+  {
+    "filename": "227-projects.cl",
+    "title": "227. Student Grade Calculator Project"
+  },
+  {
+    "filename": "228-vectors.cl",
+    "title": "228. Vectors Introduction & Traversal"
+  },
+  {
+    "filename": "229-vectors.cl",
+    "title": "229. Vector Index Access"
+  },
+  {
+    "filename": "230-vectors.cl",
+    "title": "230. Front and Back Elements"
+  },
+  {
+    "filename": "231-vectors.cl",
+    "title": "231. Vector Bounds-Checked At() Access"
+  },
+  {
+    "filename": "232-vectors.cl",
+    "title": "232. Vector Out of Bounds Safety Demonstration"
+  },
+  {
+    "filename": "233-vectors.cl",
+    "title": "233. Vector Element Mutation"
+  },
+  {
+    "filename": "234-vectors.cl",
+    "title": "234. Vector Element Mutation via Reference"
+  },
+  {
+    "filename": "235-vectors.cl",
+    "title": "235. Vector Append (push_back)"
+  },
+  {
+    "filename": "236-vectors.cl",
+    "title": "236. Multiple Appends"
+  },
+  {
+    "filename": "237-vectors.cl",
+    "title": "237. Vector Pop (pop_back)"
+  },
+  {
+    "filename": "238-vectors.cl",
+    "title": "238. Vector Length (size)"
+  },
+  {
+    "filename": "239-vectors.cl",
+    "title": "239. Vector Empty Check (Empty Case)"
+  },
+  {
+    "filename": "240-vectors.cl",
+    "title": "240. Vector Empty Check (Populated Case)"
+  },
+  {
+    "filename": "241-vectors.cl",
+    "title": "241. Indexed For Loop Over Vector"
+  },
+  {
+    "filename": "242-vectors.cl",
+    "title": "242. Range-Based For Loop Over Vector"
+  },
+  {
+    "filename": "243-match-multiple.cl",
+    "title": "243. Match Multiple Cases"
+  },
+  {
+    "filename": "244-match-return.cl",
+    "title": "244. Match with Return Value"
+  },
+  {
+    "filename": "245-loops-return.cl",
+    "title": "245. Loop Terminating with Returned Value"
+  },
+  {
+    "filename": "246-ownership-clone.cl",
+    "title": "246. Ownership and Value Copy Semantics"
+  },
+  {
+    "filename": "247-tuples-create.cl",
+    "title": "247. Heterogeneous Tuple and Record Creation"
+  },
+  {
+    "filename": "248-tuples-unpack.cl",
+    "title": "248. Unpacking Tuple and Record Fields"
+  },
+  {
+    "filename": "249-tuples-functions.cl",
+    "title": "249. Returning Multi-Value Composite Records from Functions"
+  },
+  {
+    "filename": "250-hashmap-create.cl",
+    "title": "250. Key-Value Map Creation and Insertion"
+  },
+  {
+    "filename": "251-hashmap-access.cl",
+    "title": "251. Key-Value Map Lookup and Access"
+  },
+  {
+    "filename": "252-hashmap-update.cl",
+    "title": "252. Key-Value Map Updating Values"
+  },
+  {
+    "filename": "253-hashmap-remove.cl",
+    "title": "253. Key-Value Map Removing Keys"
+  },
+  {
+    "filename": "254-hashmap-loop.cl",
+    "title": "254. Key-Value Map Iteration"
+  },
+  {
+    "filename": "255-enums-match.cl",
+    "title": "255. Enum Branching with Match"
+  },
+  {
+    "filename": "256-enums-data.cl",
+    "title": "256. Enum Variants with Data Payload (Tagged Union)"
+  },
+  {
+    "filename": "257-strings-slicing.cl",
+    "title": "257. String Slicing and Substring Extraction"
+  },
+  {
+    "filename": "258-strings-modify.cl",
+    "title": "258. String Modification and Character Iteration"
+  },
+  {
+    "filename": "259-lists-comprehension.cl",
+    "title": "259. List Comprehension and Collection Filtering"
+  },
+  {
+    "filename": "260-lists-sort.cl",
+    "title": "260. List and Vector In-Place Sorting"
+  },
+  {
+    "filename": "261-sets-create.cl",
+    "title": "261. Sets Unique Collection and Membership"
+  },
+  {
+    "filename": "262-sets-operations.cl",
+    "title": "262. Sets Operations: Union, Intersection, and Difference"
+  },
+  {
+    "filename": "263-functions-default-args.cl",
+    "title": "263. Functions with Default Argument Values"
+  },
+  {
+    "filename": "264-decorators-pattern.cl",
+    "title": "264. Decorators and Function Wrappers"
+  },
+  {
+    "filename": "265-recursion.cl",
+    "title": "265. Recursion and Sequence Computation"
+  },
+  {
+    "filename": "266-math-functions.cl",
+    "title": "266. Standard Mathematical Library Builtins"
+  },
+  {
+    "filename": "267-file-write.cl",
+    "title": "267. File I/O - Creating and Writing Files"
+  },
+  {
+    "filename": "268-file-read.cl",
+    "title": "268. File I/O - Reading Files from Disk"
+  },
+  {
+    "filename": "269-classes-init.cl",
+    "title": "269. Classes with Initializer and Instance Methods"
+  },
+  {
+    "filename": "270-encapsulation.cl",
+    "title": "270. Encapsulation and Accessor Methods"
+  },
+  {
+    "filename": "271-magic-str.cl",
+    "title": "271. Custom String Representation (Magic Str Pattern)"
+  },
+  {
+    "filename": "272-slices-subslice.cl",
+    "title": "272. Sub-slice Window from Collection"
+  },
+  {
+    "filename": "273-slices-append-multiple.cl",
+    "title": "273. Appending Multiple Elements to Dynamic Slice"
+  },
+  {
+    "filename": "274-slices-concat.cl",
+    "title": "274. Concatenating Dynamic Slices"
+  },
+  {
+    "filename": "275-slices-copy.cl",
+    "title": "275. Copying Sub-range Elements for Memory Efficiency"
+  },
+  {
+    "filename": "276-functions-multi-return.cl",
+    "title": "276. Multiple Return Values from Functions"
+  },
+  {
+    "filename": "277-functions-blank-identifier.cl",
+    "title": "277. Ignoring Return Values (Blank Identifier Pattern)"
+  },
+  {
+    "filename": "278-maps-comma-ok.cl",
+    "title": "278. Comma-Ok Map Lookup Idiom"
+  },
+  {
+    "filename": "279-array-map.cl",
+    "title": "279. Higher-Order Array Mapping"
+  },
+  {
+    "filename": "280-array-filter.cl",
+    "title": "280. Higher-Order Array Filtering"
+  },
+  {
+    "filename": "281-array-reduce.cl",
+    "title": "281. Higher-Order Array Reduction"
+  },
+  {
+    "filename": "282-array-find-some-every.cl",
+    "title": "282. Array Predicates: find, some, and every"
+  },
+  {
+    "filename": "283-json-stringify-parse.cl",
+    "title": "283. JSON Serialization and Parsing"
+  },
+  {
+    "filename": "284-closures-factory.cl",
+    "title": "284. Closures and State Encapsulation Factory"
+  },
+  {
+    "filename": "285-destructuring-assignment.cl",
+    "title": "285. Destructuring Assignment and Unpacking"
+  },
+  {
+    "filename": "286-string-templates.cl",
+    "title": "286. String Templates and Expression Interpolation"
+  },
+  {
+    "filename": "287-nullish-coalescing.cl",
+    "title": "287. Nullish Coalescing and Optional Fallback Idiom"
+  },
+  {
+    "filename": "288-event-emitter.cl",
+    "title": "288. Event-Driven Architecture and Event Emitter"
+  },
+  {
+    "filename": "289-async-promises.cl",
+    "title": "289. Asynchronous Promises and Future Resolution"
+  },
+  {
+    "filename": "290-set-deduplication.cl",
+    "title": "290. Array Deduplication Using Set Semantics"
+  },
+  {
+    "filename": "291-fluent-chaining.cl",
+    "title": "291. Fluent Method Chaining and Builder Pattern"
+  },
+  {
+    "filename": "292-dynamic-lookup.cl",
+    "title": "292. Dynamic Property Lookup and Key Existence"
+  },
+  {
+    "filename": "293-properties-get-set.cl",
+    "title": "293. Properties with Getter and Setter Validation"
+  },
+  {
+    "filename": "294-interface-contracts.cl",
+    "title": "294. Interface Contracts and Polymorphic Behavior"
+  },
+  {
+    "filename": "295-interface-multiple.cl",
+    "title": "295. Multiple Interface Contracts Implementation"
+  },
+  {
+    "filename": "296-linq-aggregations.cl",
+    "title": "296. LINQ Collection Aggregations: Min, Max, and Sum"
+  },
+  {
+    "filename": "297-method-named-args.cl",
+    "title": "297. Named Arguments Parameter Configuration Pattern"
+  },
+  {
+    "filename": "298-type-conversions.cl",
+    "title": "298. Explicit Type Casting and Conversions"
+  },
+  {
+    "filename": "299-matrix-multidimensional.cl",
+    "title": "299. Multidimensional Grid and 2D Array Iteration"
+  },
+  {
+    "filename": "300-exception-error-guards.cl",
+    "title": "300. Exception Error Guards and Boundary Handling"
+  },
+  {
+    "filename": "301-db-create-insert.cl",
+    "title": "301. Relational Table Creation and Record Insertion (CRUD: Create)"
+  },
+  {
+    "filename": "302-db-select-where.cl",
+    "title": "302. Relational Querying and WHERE Filtering (CRUD: Read)"
+  },
+  {
+    "filename": "303-db-update-delete.cl",
+    "title": "303. Relational Modification and Deletion (CRUD: Update & Delete)"
+  },
+  {
+    "filename": "304-db-orderby-limit.cl",
+    "title": "304. Query Ordering and Result Pagination (ORDER BY and LIMIT)"
+  },
+  {
+    "filename": "305-db-aggregations.cl",
+    "title": "305. SQL Aggregate Metrics: COUNT, SUM, AVG, MIN, and MAX"
+  },
+  {
+    "filename": "306-db-group-by.cl",
+    "title": "306. Categorical Partitioning and Aggregation (GROUP BY)"
+  },
+  {
+    "filename": "307-db-inner-join.cl",
+    "title": "307. Relational INNER JOIN Between Tables"
+  },
+  {
+    "filename": "308-db-primary-unique-key.cl",
+    "title": "308. Primary Key and Unique Constraint Validation"
+  },
+  {
+    "filename": "309-db-transactions-rollback.cl",
+    "title": "309. Database Transactions, Commit, and Rollback"
+  },
+  {
+    "filename": "310-db-parameterized-query.cl",
+    "title": "310. Parameterized Queries and SQL Injection Defense"
+  }
+]

@@ -3,6 +3,27 @@
 // ==============================================================================
 
 const SAMPLES = {
+    arrays_multi: `// ==============================================================================
+// 112. Nested Loops Over 2D Array
+// Source: https://www.w3schools.com/cpp/cpp_arrays_multi.asp
+// ------------------------------------------------------------------------------
+// Cluster Primer:
+//   Nested 'for i in range(rows):' and 'for j in range(cols):' traverse matrices cleanly.
+// ==============================================================================
+
+fn main() -> int:
+    letters := [
+        ["A", "B", "C", "D"],
+        ["E", "F", "G", "H"]
+    ]
+
+    for i in range(2):
+        for j in range(4):
+            pln(letters[i][j])
+
+    return 0
+`,
+
     ui_ecommerce: `// ==============================================================================
 // Example 06: E-Commerce Storefront in Cluster UI
 // Demonstrates: AppBar, TextInput, Categories Wrap, Product Grid, BottomNav
@@ -493,46 +514,25 @@ fn main() -> int:
     return 0
 `,
 
-    model_transaction: `// Model Schema, Automatic JSON, and Reflection in Cluster Language
+    model_transaction: `// Model Schema, Structs, and Member Access in Cluster Language
 model Transaction:
     id: int
     sender: string
     receiver: string
-    category: string
-    amount: float
-    payload: string
-    checksum: string
+    amount: int
 
-    fn is_valid(&self) -> bool:
-        return self.amount > 0.0 and len(self.checksum) > 0
-
-    fn summary(&self) -> string:
-        return "[" + self.category + "] " + self.sender + " -> " + self.receiver + " ($" + str(self.amount) + ")"
-
-fn main():
-    print("=== Cluster Model & Serialization Demo ===")
-    
-    // Create new strongly-typed model instance
-    let tx := Transaction(
-        id = 1001,
-        sender = "0xAlice",
-        receiver = "0xBob",
-        category = "DefiSwap",
-        amount = 1450.75,
-        payload = "swap_tokens(ETH, CL)",
-        checksum = "e4a2d8"
-    )
-
-    print("Transaction Summary: " + tx.summary())
-    print("Is Valid: " + str(tx.is_valid()))
-    
-    // Automatic JSON Serialization synthesized by compiler
-    let json_str: string = tx.to_json()
-    print("\\nSynthesized JSON Serialization:")
-    print(json_str)
-
-    // Compile-time reflection
-    print("\\nReflected Field Count: " + str(Transaction::__field_count()))
+fn main() -> int:
+    pln("=== Cluster Model & Structs Demo ===")
+    tx := Transaction(id=1001, sender="0xAlice", receiver="0xBob", amount=1450)
+    pln("Transaction ID:")
+    pln(tx.id)
+    pln("Sender:")
+    pln(tx.sender)
+    pln("Receiver:")
+    pln(tx.receiver)
+    pln("Amount ($):")
+    pln(tx.amount)
+    return 0
 `,
 
     user_input: `// Interactive User Input in Cluster Language
@@ -646,23 +646,6 @@ document.addEventListener('DOMContentLoaded', () => {
     const sampleSelect = document.getElementById('sample-select');
     const modeSelect = document.getElementById('mode-select');
     const backendSelect = document.getElementById('backend-select');
-    let activeBackend = localStorage.getItem('cluster_backend') || 'llvm';
-    if (backendSelect) {
-        backendSelect.value = activeBackend;
-        backendSelect.addEventListener('change', () => {
-            activeBackend = backendSelect.value;
-            localStorage.setItem('cluster_backend', activeBackend);
-            statusBadge.className = 'status-badge';
-            statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : '● Engine: LLVM 24.0.0';
-            if (currentTab === 'cl-il') {
-                executeCode('cl-il');
-            } else if (currentTab === 'llvm') {
-                executeCode('llvm');
-            } else {
-                executeCode(modeSelect.value || 'run');
-            }
-        });
-    }
     const btnRun = document.getElementById('btn-run');
     const autoRunToggle = document.getElementById('auto-run-toggle');
     const turboToggle = document.getElementById('turbo-toggle');
@@ -691,6 +674,49 @@ document.addEventListener('DOMContentLoaded', () => {
     const deviceMockup = document.getElementById('device-mockup');
     const nativeCodeView = document.getElementById('native-code-view');
 
+    let activeBackend = localStorage.getItem('cluster_backend') || 'llvm';
+    if (backendSelect) {
+        backendSelect.value = activeBackend;
+        backendSelect.addEventListener('change', () => {
+            activeBackend = backendSelect.value;
+            localStorage.setItem('cluster_backend', activeBackend);
+            if (statusBadge) {
+                statusBadge.className = 'status-badge';
+                statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : '● Engine: LLVM 24.0.0';
+            }
+            if (currentTab === 'cl-il') {
+                executeCode('cl-il');
+            } else if (currentTab === 'llvm') {
+                executeCode('llvm');
+            } else {
+                executeCode(modeSelect ? modeSelect.value : 'run');
+            }
+        });
+    }
+
+    if (modeSelect) {
+        modeSelect.addEventListener('change', () => {
+            const m = modeSelect.value;
+            if (m === 'llvm') {
+                const tab = document.querySelector('.tab-btn[data-tab="llvm"]');
+                if (tab) tab.click();
+                else executeCode('llvm');
+            } else if (m === 'cl-il') {
+                const tab = document.querySelector('.tab-btn[data-tab="cl-il"]');
+                if (tab) tab.click();
+                else executeCode('cl-il');
+            } else if (m === 'check') {
+                const tab = document.querySelector('.tab-btn[data-tab="check"]');
+                if (tab) tab.click();
+                else executeCode('check');
+            } else {
+                const tab = document.querySelector('.tab-btn[data-tab="terminal"]');
+                if (tab) tab.click();
+                else executeCode('run');
+            }
+        });
+    }
+
     let lastAndroidXml = '';
     let lastSwiftUi = '';
 
@@ -709,6 +735,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Check if user code requires interactive input
     function checkInteractiveInput() {
+        if (!editor || !stdinBadge || !stdinQuickInput) return;
         const code = editor.value;
         const hasInput = code.includes('input(') || code.includes('console_input(');
         if (hasInput) {
@@ -723,19 +750,23 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Clicking anywhere inside terminal focuses interactive input prompt
-    terminal.addEventListener('click', () => {
-        stdinQuickInput.focus();
-    });
+    if (terminal && stdinQuickInput) {
+        terminal.addEventListener('click', () => {
+            stdinQuickInput.focus();
+        });
+    }
 
     // Sync quick input bar and multiline stdin textarea
-    stdinQuickInput.addEventListener('input', () => {
-        stdinMultiline.value = stdinQuickInput.value;
-    });
-    stdinMultiline.addEventListener('input', () => {
-        const firstLine = stdinMultiline.value.split('\n')[0] || '';
-        stdinQuickInput.value = firstLine;
-    });
-    if (btnClearStdin) {
+    if (stdinQuickInput && stdinMultiline) {
+        stdinQuickInput.addEventListener('input', () => {
+            stdinMultiline.value = stdinQuickInput.value;
+        });
+        stdinMultiline.addEventListener('input', () => {
+            const firstLine = stdinMultiline.value.split('\n')[0] || '';
+            stdinQuickInput.value = firstLine;
+        });
+    }
+    if (btnClearStdin && stdinQuickInput && stdinMultiline) {
         btnClearStdin.addEventListener('click', () => {
             stdinQuickInput.value = '';
             stdinMultiline.value = '';
@@ -744,34 +775,39 @@ document.addEventListener('DOMContentLoaded', () => {
     }
 
     // Submit input directly from the terminal prompt bar
-    stdinQuickInput.addEventListener('keydown', (e) => {
-        if (e.key === 'Enter') {
-            e.preventDefault();
+    if (stdinQuickInput) {
+        stdinQuickInput.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter') {
+                e.preventDefault();
+                executeCode('run');
+            }
+        });
+    }
+    if (btnSendInput) {
+        btnSendInput.addEventListener('click', () => {
             executeCode('run');
-        }
-    });
-    btnSendInput.addEventListener('click', () => {
-        executeCode('run');
-    });
+        });
+    }
 
-    // Default sample
-    editor.value = SAMPLES.model_transaction;
+    // Default sample (112-arrays-multi.cl)
+    const initialSampleKey = (sampleSelect && sampleSelect.value) ? sampleSelect.value : 'arrays_multi';
+    editor.value = SAMPLES[initialSampleKey] || SAMPLES.arrays_multi;
     updateLineNumbers();
 
     // Editor Events
     editor.addEventListener('input', () => {
         updateLineNumbers();
         checkInteractiveInput();
-        if (autoRunToggle.checked) {
+        if (autoRunToggle && autoRunToggle.checked) {
             clearTimeout(autoRunTimer);
             autoRunTimer = setTimeout(() => {
-                executeCode(modeSelect.value);
+                executeCode(modeSelect ? modeSelect.value : 'run');
             }, 400);
         }
     });
 
     editor.addEventListener('scroll', () => {
-        lineNumbers.scrollTop = editor.scrollTop;
+        if (lineNumbers) lineNumbers.scrollTop = editor.scrollTop;
     });
 
     editor.addEventListener('click', updateCursorPos);
@@ -781,13 +817,14 @@ document.addEventListener('DOMContentLoaded', () => {
     function insertAtCursor(elem, text) {
         const start = elem.selectionStart;
         const end = elem.selectionEnd;
-        const val = elem.value;
-        if (document.queryCommandSupported && document.queryCommandSupported('insertText')) {
-            document.execCommand('insertText', false, text);
+        if (typeof elem.setRangeText === 'function') {
+            elem.setRangeText(text, start, end, 'end');
         } else {
+            const val = elem.value;
             elem.value = val.substring(0, start) + text + val.substring(end);
             elem.selectionStart = elem.selectionEnd = start + text.length;
         }
+        elem.dispatchEvent(new Event('input', { bubbles: true }));
     }
 
     // Smart Keyboard Shortcuts & Auto-Indentation
@@ -929,7 +966,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Sample selection
-    sampleSelect.addEventListener('change', () => {
+    sampleSelect.addEventListener('change', async () => {
         const key = sampleSelect.value;
         if (SAMPLES[key]) {
             editor.value = SAMPLES[key];
@@ -943,9 +980,28 @@ document.addEventListener('DOMContentLoaded', () => {
                     previewTabBtn.click();
                     return;
                 }
+            } else {
+                const termTabBtn = document.querySelector('.tab-btn[data-tab="terminal"]');
+                if (termTabBtn && currentTab === 'preview') termTabBtn.click();
             }
 
-            executeCode(modeSelect.value);
+            executeCode(modeSelect ? modeSelect.value : 'run');
+        } else if (key.endsWith('.cl')) {
+            try {
+                statusBadge.textContent = '⚡ Loading ' + key + '...';
+                const resp = await fetch('/examples/' + key);
+                if (resp.ok) {
+                    const text = await resp.text();
+                    editor.value = text;
+                    updateLineNumbers();
+                    checkInteractiveInput();
+                    const termTabBtn = document.querySelector('.tab-btn[data-tab="terminal"]');
+                    if (termTabBtn && currentTab === 'preview') termTabBtn.click();
+                    executeCode(modeSelect ? modeSelect.value : 'run');
+                }
+            } catch (err) {
+                console.error('Failed to load example:', err);
+            }
         }
     });
 
@@ -1075,6 +1131,14 @@ document.addEventListener('DOMContentLoaded', () => {
 
     async function executeCode(mode) {
         const code = editor.value;
+        if (!code || !code.trim()) {
+            terminal.innerHTML = '<span style="color: #8b949e;">Ready. No code to run. Select an example or write Cluster code.</span>';
+            statusBadge.className = 'status-badge';
+            statusBadge.textContent = '● Ready';
+            statusTime.textContent = '0ms';
+            return;
+        }
+
         statusBadge.className = 'status-badge running';
         statusBadge.textContent = '⚡ Compiling...';
         const startTime = performance.now();
@@ -1166,7 +1230,7 @@ document.addEventListener('DOMContentLoaded', () => {
             const isPrattPass = resultText.includes('✔ Pratt Lexer') || resultText.includes('zkc2: ok');
             const isLlvmPass = (mode === 'llvm') && (resultText.includes('target triple') || resultText.includes('define '));
             const isClilPass = (mode === 'cl-il') && (resultText.includes('ModuleID') || resultText.includes('define ') || resultText.includes('CL-IL'));
-            const isClilRunPass = resultText.includes('[CL-IL');
+            const isClilRunPass = isFinishedBuild || resultText.includes('[CL-IL');
 
             const isCompilerError = !isFinishedBuild && !isClilRunPass && (
                 resultText.includes('error[E') ||
@@ -1184,9 +1248,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 statusBadge.className = 'status-badge success';
                 statusBadge.textContent = activeBackend === 'cl-il' ? '✔ CL-IL Pipeline Succeeded' : '✔ Compilation Succeeded';
             } else {
-                statusBadge.className = 'status-badge success';
-                statusBadge.textContent = '✔ Compilation Succeeded';
-            } else {
                 statusBadge.className = 'status-badge error';
                 statusBadge.textContent = '✖ Compilation Failed';
             }
@@ -1197,6 +1258,52 @@ document.addEventListener('DOMContentLoaded', () => {
             terminal.innerHTML = '<span style="color: #f85149;">Failed to connect to Cluster Live server:\n' + ansiToHtml(err.message) + '</span>';
         }
     }
+
+    // Populate all 310 examples into sampleSelect dropdown
+    async function loadAll310Examples() {
+        if (!sampleSelect) return;
+        try {
+            const resp = await fetch('/examples_list.json');
+            if (!resp.ok) return;
+            const list = await resp.json();
+
+            const groups = {
+                '001_050': document.createElement('optgroup'),
+                '051_100': document.createElement('optgroup'),
+                '101_150': document.createElement('optgroup'),
+                '151_200': document.createElement('optgroup'),
+                '201_250': document.createElement('optgroup'),
+                '251_310': document.createElement('optgroup')
+            };
+            groups['001_050'].label = '📂 001 - 050: Strings & Basics';
+            groups['051_100'].label = '📂 051 - 100: Math, Booleans & Flow';
+            groups['101_150'].label = '📂 101 - 150: Arrays, Loops & Structs';
+            groups['151_200'].label = '📂 151 - 200: Functions & Pointers';
+            groups['201_250'].label = '📂 201 - 250: Memory & Collections';
+            groups['251_310'].label = '📂 251 - 310: OOP, Models & File I/O';
+
+            list.forEach(ex => {
+                const opt = document.createElement('option');
+                opt.value = ex.filename;
+                const num = parseInt(ex.filename.split('-')[0], 10);
+                opt.textContent = ex.filename + ' — ' + ex.title.substring(0, 42);
+
+                if (num <= 50) groups['001_050'].appendChild(opt);
+                else if (num <= 100) groups['051_100'].appendChild(opt);
+                else if (num <= 150) groups['101_150'].appendChild(opt);
+                else if (num <= 200) groups['151_200'].appendChild(opt);
+                else if (num <= 250) groups['201_250'].appendChild(opt);
+                else groups['251_310'].appendChild(opt);
+            });
+
+            Object.values(groups).forEach(g => {
+                if (g.children.length > 0) sampleSelect.appendChild(g);
+            });
+        } catch (e) {
+            console.error('Failed to load 310 examples:', e);
+        }
+    }
+    loadAll310Examples();
 
     // Check initial input state & run first sample on initial load
     checkInteractiveInput();

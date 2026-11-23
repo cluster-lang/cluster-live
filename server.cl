@@ -104,6 +104,16 @@ fn trim_leading_newline(s: string) -> string:
         return substring(s, 1, slen - 1)
     return s
 
+fn is_blank(s: string) -> bool:
+    let slen: int = len(s)
+    let mut i: int = 0
+    while i < slen:
+        let ch: string = char_at(s, i)
+        if ch != " " and ch != "\t" and ch != "\r" and ch != "\n":
+            return false
+        i = i + 1
+    return true
+
 fn execute_cluster_run(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
     let mut code: string = payload
@@ -113,9 +123,12 @@ fn execute_cluster_run(payload: string) -> string:
         let raw_stdin: string = substring(payload, sep_idx + 21, len(payload) - (sep_idx + 21))
         stdin_data = trim_leading_newline(raw_stdin)
 
+    if is_blank(code):
+        return "Ready. (No code to execute)\n"
+
     file_write("/tmp/cluster_live_code.cl", code)
     file_write("/tmp/cluster_live_stdin.txt", stdin_data)
-    let cmd: string = "timeout 60s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
+    let cmd: string = "timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
     let status: int = sys_run(cmd)
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         let out_text: string = file_read("/tmp/cluster_live_out.txt")
@@ -132,43 +145,29 @@ fn execute_cluster_run_clil(payload: string) -> string:
         let raw_stdin: string = substring(payload, sep_idx + 21, len(payload) - (sep_idx + 21))
         stdin_data = trim_leading_newline(raw_stdin)
 
+    if is_blank(code):
+        return "Ready. (No code to execute)\n"
+
     file_write("/tmp/cluster_live_code.cl", code)
     file_write("/tmp/cluster_live_stdin.txt", stdin_data)
-    sys_run("rm -f /tmp/cluster_live.clil /tmp/cluster_live.opt.clil /tmp/cluster_live_clil.o /tmp/cluster_live_out.txt /tmp/cluster_live_clil_opt.txt")
 
-    // 1. Emit intermediate representation
-    sys_run("/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /tmp/cluster_live_clil_err.txt 2>&1")
-    
-    // 2. Parse & Optimize via CL-IL SSA pipeline
-    let mut opt_stats: string = ""
-    if file_exists("/tmp/cluster_live.clil") == 1:
-        sys_run("/home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1")
-        if file_exists("/tmp/cluster_live_clil_opt.txt") == 1:
-            opt_stats = file_read("/tmp/cluster_live_clil_opt.txt")
-        // 3. Compile direct ELF64 relocatable object
-        sys_run("/home/alamgir-zk/.local/bin/cl-il compile /tmp/cluster_live.opt.clil -o /tmp/cluster_live_clil.o > /tmp/cluster_live_clil_elf.txt 2>&1")
-
-    // 4. Run binary execution
-    let cmd: string = "timeout 60s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
-    sys_run(cmd)
+    // Execute CL-IL SSA Optimizer & execution pipeline with 15s timeout
+    let clil_cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /dev/null 2>&1 && /home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1 && timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
+    sys_run(clil_cmd)
 
     let mut out_text: string = ""
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         out_text = file_read("/tmp/cluster_live_out.txt")
 
-    let mut banner: string = "[CL-IL v1.0.0 Engine Active (Secondary Intermediate Language)]\n"
-    if len(opt_stats) > 0:
-        banner = banner + "✔ SSA Pipeline: " + opt_stats + "\n"
-    if file_exists("/tmp/cluster_live_clil.o") == 1:
-        banner = banner + "✔ Direct ELF64 Relocatable Object (/tmp/cluster_live_clil.o)\n"
-    banner = banner + "--------------------------------------------------------------------------------\n"
-    return banner + out_text
+    return out_text
 
 fn execute_cluster_check(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
     let mut code: string = payload
     if sep_idx >= 0:
         code = substring(payload, 0, sep_idx)
+    if is_blank(code):
+        return "Ready. (No code to check)\n"
     file_write("/tmp/cluster_live_code.cl", code)
     let cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl check /tmp/cluster_live_code.cl > /tmp/cluster_live_out.txt 2>&1"
     sys_run(cmd)
@@ -184,6 +183,8 @@ fn execute_cluster_llvm(payload: string) -> string:
     let mut code: string = payload
     if sep_idx >= 0:
         code = substring(payload, 0, sep_idx)
+    if is_blank(code):
+        return "; Ready. (No code provided)\n"
     file_write("/tmp/cluster_live_code.cl", code)
     sys_run("rm -f /tmp/cluster_live.ll")
     let cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.ll > /tmp/cluster_live_out.txt 2>&1"
@@ -201,6 +202,8 @@ fn execute_cluster_clil(payload: string) -> string:
     let mut code: string = payload
     if sep_idx >= 0:
         code = substring(payload, 0, sep_idx)
+    if is_blank(code):
+        return "; Ready. (No code provided)\n"
     file_write("/tmp/cluster_live_code.cl", code)
     sys_run("rm -f /tmp/cluster_live.clil /tmp/cluster_live.opt.clil /tmp/cluster_live_clil_err.txt /tmp/cluster_live_clil_opt.txt")
     
@@ -317,6 +320,18 @@ fn main() -> int:
         elif is_get_or_head and path == "/ide_controller.js":
             let js_ide: string = file_read("web/ide_controller.js")
             resp = make_http_response("200 OK", "application/javascript; charset=utf-8", js_ide)
+        elif is_get_or_head and path == "/examples_list.json":
+            let ex_json: string = file_read("web/examples_list.json")
+            resp = make_http_response("200 OK", "application/json; charset=utf-8", ex_json)
+        elif is_get_or_head and has_substr(path, "/examples/"):
+            let plen: int = len(path)
+            let ex_sub: string = substring(path, 10, plen - 10)
+            let full_p: string = "examples/" + ex_sub
+            if file_exists(full_p) == 1:
+                let content: string = file_read(full_p)
+                resp = make_http_response("200 OK", "text/plain; charset=utf-8", content)
+            else:
+                resp = make_http_response("404 Not Found", "text/plain", "Example not found.")
         elif is_get_or_head and path == "/api/health":
             let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"backends\": [\"llvm\", \"cl-il\"], \"cl_il_version\": \"1.0.0\"}"
             resp = make_http_response("200 OK", "application/json", h_json)
