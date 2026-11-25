@@ -682,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('cluster_backend', activeBackend);
             if (statusBadge) {
                 statusBadge.className = 'status-badge';
-                statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : '● Engine: LLVM 24.0.0';
+                statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : (activeBackend === 'native-zk' ? '● Engine: Native-ZK (x86-64)' : '● Engine: LLVM 24.0.0');
             }
             if (currentTab === 'cl-il') {
                 executeCode('cl-il');
@@ -1246,7 +1246,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
             if (isFinishedBuild || isPrattPass || isLlvmPass || isClilPass || isClilRunPass || !isCompilerError) {
                 statusBadge.className = 'status-badge success';
-                statusBadge.textContent = activeBackend === 'cl-il' ? '✔ CL-IL Pipeline Succeeded' : '✔ Compilation Succeeded';
+                statusBadge.textContent = activeBackend === 'cl-il' ? '✔ CL-IL Pipeline Succeeded' : (activeBackend === 'native-zk' ? '✔ Native-ZK Build Succeeded' : '✔ LLVM Compilation Succeeded');
             } else {
                 statusBadge.className = 'status-badge error';
                 statusBadge.textContent = '✖ Compilation Failed';

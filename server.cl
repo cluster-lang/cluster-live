@@ -114,52 +114,47 @@ fn is_blank(s: string) -> bool:
         i = i + 1
     return true
 
-fn execute_cluster_run(payload: string) -> string:
+fn extract_code_part(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
-    let mut code: string = payload
-    let mut stdin_data: string = ""
     if sep_idx >= 0:
-        code = substring(payload, 0, sep_idx)
+        return substring(payload, 0, sep_idx)
+    return payload
+
+fn extract_stdin_part(payload: string) -> string:
+    let sep_idx: int = find_stdin_separator(payload)
+    if sep_idx >= 0:
         let raw_stdin: string = substring(payload, sep_idx + 21, len(payload) - (sep_idx + 21))
-        stdin_data = trim_leading_newline(raw_stdin)
+        return trim_leading_newline(raw_stdin)
+    return ""
+
+fn execute_cluster_with_flag(payload: string, backend_flag: string) -> string:
+    let code: string = extract_code_part(payload)
+    let stdin_data: string = extract_stdin_part(payload)
 
     if is_blank(code):
         return "Ready. (No code to execute)\n"
 
     file_write("/tmp/cluster_live_code.cl", code)
     file_write("/tmp/cluster_live_stdin.txt", stdin_data)
-    let cmd: string = "timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
-    let status: int = sys_run(cmd)
+    let mut flag_arg: string = ""
+    if len(backend_flag) > 0:
+        flag_arg = backend_flag + " "
+    let cmd: string = "timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run " + flag_arg + "/tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
+    sys_run(cmd)
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         let out_text: string = file_read("/tmp/cluster_live_out.txt")
         if len(out_text) > 0:
             return out_text
     return "Error: Execution did not produce output."
 
+fn execute_cluster_run(payload: string) -> string:
+    return execute_cluster_with_flag(payload, "--llvm")
+
 fn execute_cluster_run_clil(payload: string) -> string:
-    let sep_idx: int = find_stdin_separator(payload)
-    let mut code: string = payload
-    let mut stdin_data: string = ""
-    if sep_idx >= 0:
-        code = substring(payload, 0, sep_idx)
-        let raw_stdin: string = substring(payload, sep_idx + 21, len(payload) - (sep_idx + 21))
-        stdin_data = trim_leading_newline(raw_stdin)
+    return execute_cluster_with_flag(payload, "--cl-il")
 
-    if is_blank(code):
-        return "Ready. (No code to execute)\n"
-
-    file_write("/tmp/cluster_live_code.cl", code)
-    file_write("/tmp/cluster_live_stdin.txt", stdin_data)
-
-    // Execute CL-IL SSA Optimizer & execution pipeline with 15s timeout
-    let clil_cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /dev/null 2>&1 && /home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1 && timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run /tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
-    sys_run(clil_cmd)
-
-    let mut out_text: string = ""
-    if file_exists("/tmp/cluster_live_out.txt") == 1:
-        out_text = file_read("/tmp/cluster_live_out.txt")
-
-    return out_text
+fn execute_cluster_run_native(payload: string) -> string:
+    return execute_cluster_with_flag(payload, "")
 
 fn execute_cluster_check(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
@@ -213,7 +208,7 @@ fn execute_cluster_clil(payload: string) -> string:
 
     // Step 2: Run CL-IL parser and optimizer
     if file_exists("/tmp/cluster_live.clil") == 1:
-        let cmd2: string = "/home/alamgir-zk/.local/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1"
+        let cmd2: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1"
         sys_run(cmd2)
         if file_exists("/tmp/cluster_live.opt.clil") == 1:
             let opt_text: string = file_read("/tmp/cluster_live.opt.clil")
@@ -333,7 +328,7 @@ fn main() -> int:
             else:
                 resp = make_http_response("404 Not Found", "text/plain", "Example not found.")
         elif is_get_or_head and path == "/api/health":
-            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"backends\": [\"llvm\", \"cl-il\"], \"cl_il_version\": \"1.0.0\"}"
+            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"backends\": [\"llvm\", \"cl-il\", \"native-zk\"], \"cl_il_version\": \"1.0.0\"}"
             resp = make_http_response("200 OK", "application/json", h_json)
         elif method == "POST" and (path == "/api/clil" or path == "/api/cl-il"):
             let code_to_clil: string = find_http_body(raw_req)
@@ -345,12 +340,12 @@ fn main() -> int:
             resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_clil_run)
         elif method == "POST" and path == "/api/run":
             let code_to_run: string = find_http_body(raw_req)
-            let mut use_clil: bool = false
             if has_substr(raw_req, "X-Backend: cl-il") or has_substr(raw_req, "backend=cl-il"):
-                use_clil = true
-            if use_clil:
                 let out_clil_run: string = execute_cluster_run_clil(code_to_run)
                 resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_clil_run)
+            elif has_substr(raw_req, "X-Backend: native-zk") or has_substr(raw_req, "backend=native-zk"):
+                let out_nat: string = execute_cluster_run_native(code_to_run)
+                resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_nat)
             else:
                 let out_run: string = execute_cluster_run(code_to_run)
                 resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_run)
