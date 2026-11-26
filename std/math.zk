@@ -1,0 +1,85 @@
+// Cluster Standard Library: Math (std::math)
+// Pure Cluster mathematical algorithms
+
+fn math_abs(x: int) -> int:
+    if x < 0:
+        return - x
+    return x
+
+fn math_min(a: int, b: int) -> int:
+    if a < b:
+        return a
+    return b
+
+fn math_max(a: int, b: int) -> int:
+    if a > b:
+        return a
+    return b
+
+fn math_clamp(val: int, low: int, high: int) -> int:
+    if val < low:
+        return low
+    if val > high:
+        return high
+    return val
+
+fn math_sign(x: int) -> int:
+    if x > 0:
+        return 1
+    elif x < 0:
+        return - 1
+    return 0
+
+fn math_pow(base: int, exp: int) -> int:
+    if exp < 0:
+        return 0
+    if exp == 0:
+        return 1
+    res := 1
+    b := base
+    e := exp
+    while e > 0:
+        if e % 2 == 1:
+            res = res * b
+        b = b * b
+        e = e / 2
+    return res
+
+fn math_gcd(a: int, b: int) -> int:
+    x := math_abs(a)
+    y := math_abs(b)
+    while y != 0:
+        temp := y
+        y = x % y
+        x = temp
+    return x
+
+fn math_lcm(a: int, b: int) -> int:
+    if a == 0 or b == 0:
+        return 0
+    g := math_gcd(a, b)
+    return (math_abs(a) / g) * math_abs(b)
+
+fn math_is_prime(n: int) -> int:
+    if n <= 1:
+        return 0
+    if n <= 3:
+        return 1
+    if n % 2 == 0 or n % 3 == 0:
+        return 0
+    i := 5
+    while i * i <= n:
+        if n % i == 0 or n % (i + 2) == 0:
+            return 0
+        i = i + 6
+    return 1
+
+fn math_factorial(n: int) -> int:
+    if n <= 1:
+        return 1
+    res := 1
+    i := 2
+    while i <= n:
+        res = res * i
+        i = i + 1
+    return res

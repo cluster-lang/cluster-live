@@ -15,7 +15,7 @@ cd "$DIR"
 PID_FILE="$DIR/.server.pid"
 LOG_FILE="$DIR/server.log"
 PORT=8080
-CLUSTER_BIN="/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl"
+CLUSTER_BIN="$DIR/bin/cl"
 
 is_running() {
     if [ -f "$PID_FILE" ]; then
@@ -46,8 +46,8 @@ start_server() {
         return 0
     fi
 
-    # Compile server_bin if missing or source updated
-    if [ ! -f "$DIR/server_bin" ] || [ "$DIR/server.cl" -nt "$DIR/server_bin" ]; then
+    # Compile server_bin if missing or source/compiler updated
+    if [ ! -f "$DIR/server_bin" ] || [ "$DIR/server.cl" -nt "$DIR/server_bin" ] || [ "$CLUSTER_BIN" -nt "$DIR/server_bin" ]; then
         echo "⚡ Compiling Cluster Live HTTP Server with LLVM primary backend..."
         "$CLUSTER_BIN" build server.cl -O3 -o server_bin
         echo "✔ Build complete: server_bin"

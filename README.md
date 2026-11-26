@@ -32,14 +32,15 @@ A high-performance, real-time web IDE and live compilation playground for **Clus
 
 ### Launch the Server
 ```bash
-cd /media/alamgir-zk/debian13-hdd/alamgir-zk/zk-company/cluster-live
+git clone https://github.com/cluster-lang/cluster-live.git
+cd cluster-live
 chmod +x start.sh
-./start.sh
+./start.sh start
 ```
 
-Or run directly with the Cluster native compiler:
+Or run directly with the bundled Cluster native compiler (`bin/cl`):
 ```bash
-/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run server.cl
+./bin/cl run server.cl
 ```
 
 ### Access the Web Playground
@@ -54,8 +55,11 @@ http://localhost:8080
 
 ```
 cluster-live/
+├── bin/               # Bundled Cluster toolchain binaries (cl, cl2, cl-il)
+├── lib/runtime/       # Bundled Cluster native runtime (concurrency.o, libcluster_rt.so)
+├── std/               # Bundled Cluster standard library modules
 ├── server.cl          # 100% Pure Cluster Language HTTP Server & Compiler API
-├── server_bin         # Precompiled native ELF executable (-O3)
+├── server_bin         # Precompiled native ELF executable (-O3, built with ./bin/cl)
 ├── start.sh           # One-click launcher script
 ├── README.md          # Project documentation
 └── web/               # Frontend Assets

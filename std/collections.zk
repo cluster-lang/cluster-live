@@ -1,0 +1,84 @@
+// Cluster Standard Library: Collections (std::collections)
+// Standard data structures: Stack, Queue, StringMap
+
+model Stack:
+    data: vector[int]
+
+    fn push(& self, val: int):
+        list_push(self.data, val)
+
+    fn size(& self) -> int:
+        return list_size(self.data)
+
+    fn is_empty(& self) -> int:
+        if list_size(self.data) == 0:
+            return 1
+        return 0
+
+    fn pop(& self) -> int:
+        if list_size(self.data) == 0:
+            return 0
+        return list_pop(self.data)
+
+    fn peek(& self) -> int:
+        sz := list_size(self.data)
+        if sz == 0:
+            return 0
+        return self.data[(sz - 1)]
+
+model Queue:
+    data: vector[int]
+    head: int := 0
+
+    fn enqueue(& self, val: int):
+        list_push(self.data, val)
+
+    fn size(& self) -> int:
+        return list_size(self.data) - self.head
+
+    fn is_empty(& self) -> int:
+        if self.size() <= 0:
+            return 1
+        return 0
+
+    fn dequeue(& self) -> int:
+        if self.is_empty() == 1:
+            return 0
+        val := self.data[(self.head)]
+        self.head = self.head + 1
+        return val
+
+model StringMap:
+    keys: vector[string]
+    vals: vector[string]
+
+    fn size(& self) -> int:
+        return list_size(self.keys)
+
+    fn index_of(& self, key: string) -> int:
+        i := 0
+        sz := list_size(self.keys)
+        while i < sz:
+            if self.keys[(i)] == key:
+                return i
+            i = i + 1
+        return - 1
+
+    fn contains(& self, key: string) -> int:
+        if self.index_of(key) >= 0:
+            return 1
+        return 0
+
+    fn get(& self, key: string) -> string:
+        idx := self.index_of(key)
+        if idx >= 0:
+            return self.vals[(idx)]
+        return ""
+
+    fn set(& self, key: string, val: string):
+        idx := self.index_of(key)
+        if idx >= 0:
+            self.vals[(idx)] = val
+        else:
+            list_push(self.keys, key)
+            list_push(self.vals, val)

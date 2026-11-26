@@ -1,0 +1,163 @@
+// Cluster Standard Library: Strings (std::strings)
+// Pure Cluster implementation with zero C++ dependencies
+
+fn str_len(s: string) -> int:
+    return string_length(s)
+
+fn str_is_empty(s: string) -> int:
+    if string_length(s) == 0:
+        return 1
+    return 0
+
+fn str_char_at(s: string, index: int) -> string:
+    if index < 0 or index >= string_length(s):
+        return ""
+    return substring(s, index, 1)
+
+fn str_starts_with(s: string, prefix: string) -> int:
+    plen := string_length(prefix)
+    slen := string_length(s)
+    if plen > slen:
+        return 0
+    if plen == 0:
+        return 1
+    sub := substring(s, 0, plen)
+    if sub == prefix:
+        return 1
+    return 0
+
+fn str_ends_with(s: string, suffix: string) -> int:
+    flen := string_length(suffix)
+    slen := string_length(s)
+    if flen > slen:
+        return 0
+    if flen == 0:
+        return 1
+    sub := substring(s, slen - flen, flen)
+    if sub == suffix:
+        return 1
+    return 0
+
+fn str_contains(haystack: string, needle: string) -> int:
+    return string_contains(haystack, needle)
+
+fn str_repeat(s: string, count: int) -> string:
+    if count <= 0:
+        return ""
+    res := ""
+    i := 0
+    while i < count:
+        res = res + s
+        i = i + 1
+    return res
+
+fn str_pad_left(s: string, total_len: int, pad: string) -> string:
+    slen := string_length(s)
+    if slen >= total_len:
+        return s
+    needed := total_len - slen
+    padding := str_repeat(pad, needed)
+    return padding + s
+
+fn str_pad_right(s: string, total_len: int, pad: string) -> string:
+    slen := string_length(s)
+    if slen >= total_len:
+        return s
+    needed := total_len - slen
+    padding := str_repeat(pad, needed)
+    return s + padding
+
+fn str_trim_left(s: string) -> string:
+    slen := string_length(s)
+    i := 0
+    while i < slen:
+        ch := substring(s, i, 1)
+        if ch != " " and ch != "\t" and ch != "\n" and ch != "\r":
+            return substring(s, i, slen - i)
+        i = i + 1
+    return ""
+
+fn str_trim_right(s: string) -> string:
+    slen := string_length(s)
+    i := slen - 1
+    while i >= 0:
+        ch := substring(s, i, 1)
+        if ch != " " and ch != "\t" and ch != "\n" and ch != "\r":
+            return substring(s, 0, i + 1)
+        i = i - 1
+    return ""
+
+fn str_trim(s: string) -> string:
+    return str_trim_right(str_trim_left(s))
+
+fn str_to_lower(s: string) -> string:
+    res := ""
+    i := 0
+    slen := string_length(s)
+    while i < slen:
+        ch := substring(s, i, 1)
+        if ch == "A": res = res + "a"
+        elif ch == "B": res = res + "b"
+        elif ch == "C": res = res + "c"
+        elif ch == "D": res = res + "d"
+        elif ch == "E": res = res + "e"
+        elif ch == "F": res = res + "f"
+        elif ch == "G": res = res + "g"
+        elif ch == "H": res = res + "h"
+        elif ch == "I": res = res + "i"
+        elif ch == "J": res = res + "j"
+        elif ch == "K": res = res + "k"
+        elif ch == "L": res = res + "l"
+        elif ch == "M": res = res + "m"
+        elif ch == "N": res = res + "n"
+        elif ch == "O": res = res + "o"
+        elif ch == "P": res = res + "p"
+        elif ch == "Q": res = res + "q"
+        elif ch == "R": res = res + "r"
+        elif ch == "S": res = res + "s"
+        elif ch == "T": res = res + "t"
+        elif ch == "U": res = res + "u"
+        elif ch == "V": res = res + "v"
+        elif ch == "W": res = res + "w"
+        elif ch == "X": res = res + "x"
+        elif ch == "Y": res = res + "y"
+        elif ch == "Z": res = res + "z"
+        else: res = res + ch
+        i = i + 1
+    return res
+
+fn str_to_upper(s: string) -> string:
+    res := ""
+    i := 0
+    slen := string_length(s)
+    while i < slen:
+        ch := substring(s, i, 1)
+        if ch == "a": res = res + "A"
+        elif ch == "b": res = res + "B"
+        elif ch == "c": res = res + "C"
+        elif ch == "d": res = res + "D"
+        elif ch == "e": res = res + "E"
+        elif ch == "f": res = res + "F"
+        elif ch == "g": res = res + "G"
+        elif ch == "h": res = res + "H"
+        elif ch == "i": res = res + "I"
+        elif ch == "j": res = res + "J"
+        elif ch == "k": res = res + "K"
+        elif ch == "l": res = res + "L"
+        elif ch == "m": res = res + "M"
+        elif ch == "n": res = res + "N"
+        elif ch == "o": res = res + "O"
+        elif ch == "p": res = res + "P"
+        elif ch == "q": res = res + "Q"
+        elif ch == "r": res = res + "R"
+        elif ch == "s": res = res + "S"
+        elif ch == "t": res = res + "T"
+        elif ch == "u": res = res + "U"
+        elif ch == "v": res = res + "V"
+        elif ch == "w": res = res + "W"
+        elif ch == "x": res = res + "X"
+        elif ch == "y": res = res + "Y"
+        elif ch == "z": res = res + "Z"
+        else: res = res + ch
+        i = i + 1
+    return res

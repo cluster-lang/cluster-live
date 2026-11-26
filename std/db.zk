@@ -1,0 +1,47 @@
+// Cluster Standard Library: Embedded Database (std::db)
+// In-memory key-value and record store
+
+model DbRecord:
+    id: int := 0
+    key: string := ""
+    value: string := ""
+
+model KeyValueStore:
+    keys: vector[string]
+    vals: vector[string]
+    next_id: int := 1
+
+    fn set(& self, key: string, value: string) -> int:
+        i := 0
+        sz := list_size(self.keys)
+        while i < sz:
+            if self.keys[(i)] == key:
+                self.vals[(i)] = value
+                return i + 1
+            i = i + 1
+        list_push(self.keys, key)
+        list_push(self.vals, value)
+        cur_id := self.next_id
+        self.next_id = self.next_id + 1
+        return cur_id
+
+    fn get(& self, key: string) -> string:
+        i := 0
+        sz := list_size(self.keys)
+        while i < sz:
+            if self.keys[(i)] == key:
+                return self.vals[(i)]
+            i = i + 1
+        return ""
+
+    fn exists(& self, key: string) -> int:
+        i := 0
+        sz := list_size(self.keys)
+        while i < sz:
+            if self.keys[(i)] == key:
+                return 1
+            i = i + 1
+        return 0
+
+    fn count(& self) -> int:
+        return list_size(self.keys)

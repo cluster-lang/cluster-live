@@ -1,0 +1,78 @@
+// Cluster Standard Library: JSON (std::json)
+// Pure Cluster JSON encoding and formatting
+
+fn json_quote(s: string) -> string:
+    res := "\""
+    i := 0
+    slen := string_length(s)
+    while i < slen:
+        ch := substring(s, i, 1)
+        if ch == "\"":
+            res = res + "\\\""
+        elif ch == "\\":
+            res = res + "\\\\"
+        elif ch == "\n":
+            res = res + "\\n"
+        elif ch == "\r":
+            res = res + "\\r"
+        elif ch == "\t":
+            res = res + "\\t"
+        else:
+            res = res + ch
+        i = i + 1
+    res = res + "\""
+    return res
+
+fn json_encode_int(val: int) -> string:
+    return to_text(val)
+
+fn json_encode_bool(val: int) -> string:
+    if val != 0:
+        return "true"
+    return "false"
+
+model JsonObject:
+    keys: vector[string]
+    vals: vector[string]
+
+    fn put_str(& self, k: string, v: string):
+        list_push(self.keys, k)
+        list_push(self.vals, json_quote(v))
+
+    fn put_int(& self, k: string, v: int):
+        list_push(self.keys, k)
+        list_push(self.vals, to_text(v))
+
+    fn put_bool(& self, k: string, v: int):
+        list_push(self.keys, k)
+        if v != 0:
+            list_push(self.vals, "true")
+        else:
+            list_push(self.vals, "false")
+
+    fn put_raw(& self, k: string, raw_json: string):
+        list_push(self.keys, k)
+        list_push(self.vals, raw_json)
+
+    fn get(& self, k: string) -> string:
+        i := 0
+        sz := list_size(self.keys)
+        while i < sz:
+            if self.keys[(i)] == k:
+                return self.vals[(i)]
+            i = i + 1
+        return ""
+
+    fn stringify(& self) -> string:
+        sz := list_size(self.keys)
+        if sz == 0:
+            return "{}"
+        out := "{"
+        i := 0
+        while i < sz:
+            if i > 0:
+                out = out + ", "
+            out = out + json_quote(self.keys[(i)]) + ": " + self.vals[(i)]
+            i = i + 1
+        out = out + "}"
+        return out

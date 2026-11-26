@@ -139,7 +139,7 @@ fn execute_cluster_with_flag(payload: string, backend_flag: string) -> string:
     let mut flag_arg: string = ""
     if len(backend_flag) > 0:
         flag_arg = backend_flag + " "
-    let cmd: string = "timeout 15s /home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl run " + flag_arg + "/tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
+    let cmd: string = "timeout 15s ./bin/cl run " + flag_arg + "/tmp/cluster_live_code.cl < /tmp/cluster_live_stdin.txt > /tmp/cluster_live_out.txt 2>&1"
     sys_run(cmd)
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         let out_text: string = file_read("/tmp/cluster_live_out.txt")
@@ -167,7 +167,7 @@ fn execute_cluster_check(payload: string) -> string:
     if is_blank(code):
         return "Ready. (No code to check)\n"
     file_write("/tmp/cluster_live_code.cl", code)
-    let cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl check /tmp/cluster_live_code.cl > /tmp/cluster_live_out.txt 2>&1"
+    let cmd: string = "./bin/cl check /tmp/cluster_live_code.cl > /tmp/cluster_live_out.txt 2>&1"
     sys_run(cmd)
     if file_exists("/tmp/cluster_live_out.txt") == 1:
         let out: string = file_read("/tmp/cluster_live_out.txt")
@@ -185,7 +185,7 @@ fn execute_cluster_llvm(payload: string) -> string:
         return "; Ready. (No code provided)\n"
     file_write("/tmp/cluster_live_code.cl", code)
     sys_run("rm -f /tmp/cluster_live.ll")
-    let cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.ll > /tmp/cluster_live_out.txt 2>&1"
+    let cmd: string = "./bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.ll > /tmp/cluster_live_out.txt 2>&1"
     let ret: int = sys_run(cmd)
     if file_exists("/tmp/cluster_live.ll") == 1:
         let ll_code: string = file_read("/tmp/cluster_live.ll")
@@ -206,12 +206,12 @@ fn execute_cluster_clil(payload: string) -> string:
     sys_run("rm -f /tmp/cluster_live.clil /tmp/cluster_live.opt.clil /tmp/cluster_live_clil_err.txt /tmp/cluster_live_clil_opt.txt")
     
     // Step 1: Emit intermediate representation
-    let cmd1: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /tmp/cluster_live_clil_err.txt 2>&1"
+    let cmd1: string = "./bin/cl emit-llvm /tmp/cluster_live_code.cl -o /tmp/cluster_live.clil > /tmp/cluster_live_clil_err.txt 2>&1"
     sys_run(cmd1)
 
     // Step 2: Run CL-IL parser and optimizer
     if file_exists("/tmp/cluster_live.clil") == 1:
-        let cmd2: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1"
+        let cmd2: string = "./bin/cl-il opt /tmp/cluster_live.clil -O3 -o /tmp/cluster_live.opt.clil > /tmp/cluster_live_clil_opt.txt 2>&1"
         sys_run(cmd2)
         if file_exists("/tmp/cluster_live.opt.clil") == 1:
             let opt_text: string = file_read("/tmp/cluster_live.opt.clil")
@@ -252,14 +252,14 @@ fn execute_cluster_format(payload: string) -> string:
     if sep_idx >= 0:
         code = substring(payload, 0, sep_idx)
     file_write("/tmp/cluster_live_code.cl", code)
-    let cmd: string = "/home/alamgir-zk/Cluster-Family/cluster-lang/bin/cl fmt -w /tmp/cluster_live_code.cl > /dev/null 2>&1"
+    let cmd: string = "./bin/cl fmt -w /tmp/cluster_live_code.cl > /dev/null 2>&1"
     sys_run(cmd)
     if file_exists("/tmp/cluster_live_code.cl") == 1:
         return file_read("/tmp/cluster_live_code.cl")
     return code
 
 fn execute_git_status() -> string:
-    sys_run("git -C /home/alamgir-zk/Cluster-Family/cluster-lang status -s > /tmp/cluster_git_status.txt 2>&1")
+    sys_run("git status -s > /tmp/cluster_git_status.txt 2>&1")
     if file_exists("/tmp/cluster_git_status.txt") == 1:
         let out: string = file_read("/tmp/cluster_git_status.txt")
         if len(out) > 0:

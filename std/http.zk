@@ -1,0 +1,54 @@
+// Cluster Standard Library: HTTP (std::http)
+// HTTP request representation, status codes, and response builder
+
+fn http_status_text(code: int) -> string:
+    if code == 200: return "OK"
+    elif code == 201: return "Created"
+    elif code == 204: return "No Content"
+    elif code == 400: return "Bad Request"
+    elif code == 401: return "Unauthorized"
+    elif code == 403: return "Forbidden"
+    elif code == 404: return "Not Found"
+    elif code == 405: return "Method Not Allowed"
+    elif code == 500: return "Internal Server Error"
+    elif code == 502: return "Bad Gateway"
+    elif code == 503: return "Service Unavailable"
+    return "Unknown"
+
+model HttpRequest:
+    method: string
+    path: string
+    body: string
+
+    fn is_get(& self) -> int:
+        if self.method == "GET":
+            return 1
+        return 0
+
+    fn is_post(& self) -> int:
+        if self.method == "POST":
+            return 1
+        return 0
+
+model HttpResponse:
+    status_code: int := 200
+    content_type: string := "application/json"
+    body: string := ""
+
+    fn set_status(& self, code: int):
+        self.status_code = code
+
+    fn set_content_type(& self, ctype: string):
+        self.content_type = ctype
+
+    fn set_body(& self, b: string):
+        self.body = b
+
+    fn format_http(& self) -> string:
+        stext := http_status_text(self.status_code)
+        resp := "HTTP/1.1 " + to_text(self.status_code) + " " + stext + "\r\n"
+        resp = resp + "Content-Type: " + self.content_type + "\r\n"
+        resp = resp + "Content-Length: " + to_text(string_length(self.body)) + "\r\n"
+        resp = resp + "Connection: close\r\n\r\n"
+        resp = resp + self.body
+        return resp

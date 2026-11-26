@@ -1,0 +1,57 @@
+// Cluster Standard Library: I/O & File System (std::io)
+// Safe file operations and path manipulation
+
+fn io_read(path: string) -> string:
+    return file_read(path)
+
+fn io_write(path: string, content: string) -> int:
+    return file_write(path, content)
+
+fn io_exists(path: string) -> int:
+    return file_exists(path)
+
+fn io_path_join(dir: string, file: string) -> string:
+    dlen := string_length(dir)
+    if dlen == 0:
+        return file
+    last_ch := substring(dir, dlen - 1, 1)
+    if last_ch == "/":
+        return dir + file
+    return dir + "/" + file
+
+fn io_path_basename(path: string) -> string:
+    plen := string_length(path)
+    if plen == 0:
+        return ""
+    i := plen - 1
+    while i >= 0:
+        ch := substring(path, i, 1)
+        if ch == "/":
+            return substring(path, i + 1, plen - 1 - i)
+        i = i - 1
+    return path
+
+fn io_path_dirname(path: string) -> string:
+    plen := string_length(path)
+    if plen == 0:
+        return "."
+    i := plen - 1
+    while i >= 0:
+        ch := substring(path, i, 1)
+        if ch == "/":
+            if i == 0:
+                return "/"
+            return substring(path, 0, i)
+        i = i - 1
+    return "."
+
+fn io_path_extension(path: string) -> string:
+    base := io_path_basename(path)
+    blen := string_length(base)
+    i := blen - 1
+    while i >= 0:
+        ch := substring(base, i, 1)
+        if ch == ".":
+            return substring(base, i, blen - i)
+        i = i - 1
+    return ""
