@@ -682,7 +682,7 @@ document.addEventListener('DOMContentLoaded', () => {
             localStorage.setItem('cluster_backend', activeBackend);
             if (statusBadge) {
                 statusBadge.className = 'status-badge';
-                statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0' : (activeBackend === 'native-zk' ? '● Engine: Native-ZK (x86-64)' : '● Engine: LLVM 24.0.0');
+                statusBadge.textContent = activeBackend === 'cl-il' ? '● Engine: CL-IL v1.0.0 (--clil Secondary)' : (activeBackend === 'native-zk' ? '● Engine: Native-ZK (x86-64)' : '● Engine: LLVM (Primary · -O3)');
             }
             if (currentTab === 'cl-il') {
                 executeCode('cl-il');

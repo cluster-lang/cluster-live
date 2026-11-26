@@ -1,7 +1,7 @@
 // ==============================================================================
 // Cluster Live Studio — HTTP Server
 // 100% Pure Cluster Language Web Server & Live Compiler Engine
-// Multi-Backend Support: LLVM 24.0.0 (Primary) & CL-IL v1.0.0 (Secondary IL)
+// Multi-Backend Support: LLVM (Primary) & CL-IL v1.0.0 (--clil Secondary) & Native-ZK
 // Contributor: Mohammad Zaid <zkalamgir@proton.me>
 // ==============================================================================
 
@@ -148,13 +148,16 @@ fn execute_cluster_with_flag(payload: string, backend_flag: string) -> string:
     return "Error: Execution did not produce output."
 
 fn execute_cluster_run(payload: string) -> string:
-    return execute_cluster_with_flag(payload, "--llvm")
+    return execute_cluster_with_flag(payload, "")
 
 fn execute_cluster_run_clil(payload: string) -> string:
-    return execute_cluster_with_flag(payload, "--cl-il")
+    return execute_cluster_with_flag(payload, "--clil")
 
 fn execute_cluster_run_native(payload: string) -> string:
-    return execute_cluster_with_flag(payload, "")
+    return execute_cluster_with_flag(payload, "--native-zk")
+
+fn execute_cluster_run_llvm(payload: string) -> string:
+    return execute_cluster_with_flag(payload, "--llvm")
 
 fn execute_cluster_check(payload: string) -> string:
     let sep_idx: int = find_stdin_separator(payload)
@@ -274,8 +277,8 @@ fn main() -> int:
     print("        ⚡ CLUSTER LIVE STUDIO (WEB IDE SERVER)          ")
     print("==========================================================")
     print("  Engine:   100% Pure Cluster Language HTTP Runtime")
-    print("  Compiler: cl v1.0.0 (LLVM 24.0 Backend)")
-    print("  CL-IL:    CL-IL v1.0.0 (Cluster Intermediate Language)")
+    print("  Primary:  LLVM (Primary Default)")
+    print("  CL-IL:    CL-IL v1.0.0 (--clil Secondary) + Native-ZK")
     print("  URL:      http://localhost:" + str(port))
     print("==========================================================")
     print("Server ready. Listening for live compilation requests...\n")
@@ -328,7 +331,7 @@ fn main() -> int:
             else:
                 resp = make_http_response("404 Not Found", "text/plain", "Example not found.")
         elif is_get_or_head and path == "/api/health":
-            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"backends\": [\"llvm\", \"cl-il\", \"native-zk\"], \"cl_il_version\": \"1.0.0\"}"
+            let h_json: string = "{\"status\": \"online\", \"server\": \"pure-cluster-http\", \"compiler\": \"cl v1.0.0\", \"primary\": \"llvm\", \"backends\": [\"llvm\", \"cl-il\", \"native-zk\"], \"cl_il_version\": \"1.0.0\"}"
             resp = make_http_response("200 OK", "application/json", h_json)
         elif method == "POST" and (path == "/api/clil" or path == "/api/cl-il"):
             let code_to_clil: string = find_http_body(raw_req)
@@ -346,6 +349,9 @@ fn main() -> int:
             elif has_substr(raw_req, "X-Backend: native-zk") or has_substr(raw_req, "backend=native-zk"):
                 let out_nat: string = execute_cluster_run_native(code_to_run)
                 resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_nat)
+            elif has_substr(raw_req, "X-Backend: llvm") or has_substr(raw_req, "backend=llvm"):
+                let out_llvm_run: string = execute_cluster_run_llvm(code_to_run)
+                resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_llvm_run)
             else:
                 let out_run: string = execute_cluster_run(code_to_run)
                 resp = make_http_response("200 OK", "text/plain; charset=utf-8", out_run)

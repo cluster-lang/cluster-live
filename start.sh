@@ -48,8 +48,8 @@ start_server() {
 
     # Compile server_bin if missing or source updated
     if [ ! -f "$DIR/server_bin" ] || [ "$DIR/server.cl" -nt "$DIR/server_bin" ]; then
-        echo "⚡ Compiling Cluster Live HTTP Server with native LLVM backend..."
-        "$CLUSTER_BIN" build server.cl -o server_bin
+        echo "⚡ Compiling Cluster Live HTTP Server with LLVM primary backend..."
+        "$CLUSTER_BIN" build server.cl -O3 -o server_bin
         echo "✔ Build complete: server_bin"
     fi
 
