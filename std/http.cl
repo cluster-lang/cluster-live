@@ -395,3 +395,53 @@ fn http_client_post(host: string, port: int, path: string, ctype: string, body: 
 fn http_serve_fast(port: int, body: string):
     server_start(port, body)
 
+// Build HTTP/1.1 Keep-Alive response payload with persistent Connection header.
+fn http_format_keepalive(status_code: int, ctype: string, body: string) -> string:
+    stext := http_status_text(status_code)
+    resp := "HTTP/1.1 " + to_text(status_code) + " " + stext + "\r\n"
+    resp = resp + "Content-Type: " + ctype + "\r\n"
+    resp = resp + "Content-Length: " + to_text(string_length(body)) + "\r\n"
+    resp = resp + "Connection: keep-alive\r\n\r\n"
+    return resp + body
+
+fn _http_hex_val(b: int) -> int:
+    if b >= 48 and b <= 57:
+        return b - 48
+    if b >= 97 and b <= 102:
+        return b - 87
+    if b >= 65 and b <= 70:
+        return b - 55
+    return -1
+
+// Decode an HTTP/1.1 Transfer-Encoding: chunked body payload cleanly.
+fn http_decode_chunked(raw_body: string) -> string:
+    n := string_length(raw_body)
+    pos := 0
+    out := ""
+    while pos < n:
+        line_end := pos
+        while line_end < n and byte_at(raw_body, line_end) != 10:
+            line_end = line_end + 1
+        sz := 0
+        i := pos
+        while i < line_end:
+            c := byte_at(raw_body, i)
+            if c == 13 or c == 59:
+                break
+            d := _http_hex_val(c)
+            if d >= 0:
+                sz = (sz * 16) + d
+            i = i + 1
+        pos = line_end + 1
+        if sz == 0:
+            break
+        if pos + sz > n:
+            sz = n - pos
+        out = out + substring(raw_body, pos, sz)
+        pos = pos + sz
+        if pos < n and byte_at(raw_body, pos) == 13:
+            pos = pos + 1
+        if pos < n and byte_at(raw_body, pos) == 10:
+            pos = pos + 1
+    return out
+

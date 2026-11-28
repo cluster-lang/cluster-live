@@ -636,3 +636,22 @@ fn pg_parse_data_row(payload: vector[int]) -> vector[string]:
             pos = pos + flen
         ci = ci + 1
     return vals
+
+// Production SQLite3 database driver wrappers (via libsqlite3.so.0)
+fn sqlite_open(path: string) -> int:
+    return cl_sqlite_open(path)
+
+fn sqlite_close(db: int):
+    cl_sqlite_close(db)
+
+fn sqlite_exec(db: int, sql: string) -> int:
+    return cl_sqlite_exec(db, sql)
+
+fn sqlite_exec_param(db: int, sql: string, p1: string) -> int:
+    return cl_sqlite_exec_param(db, sql, p1)
+
+fn sqlite_query_json(db: int, sql: string) -> string:
+    return cl_sqlite_query_json(db, sql)
+
+fn sqlite_query_param_json(db: int, sql: string, p1: string) -> string:
+    return cl_sqlite_query_param_json(db, sql, p1)

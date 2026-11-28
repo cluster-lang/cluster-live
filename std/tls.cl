@@ -238,3 +238,16 @@ fn tls_build_server_hello(srv_rand: vector[int], x25519_pub: vector[int]) -> vec
     _tls_push_u24(hs, list_size(body))
     _tls_push_vec(hs, body)
     return tls_wrap_record(TLS_HANDSHAKE, TLS_VERSION_1_2, hs)
+
+// Production OpenSSL-backed TLS client socket wrappers (via libssl.so.3)
+fn tls_socket_connect(host: string, port: int, verify_peer: int) -> int:
+    return net_tls_connect(host, port, verify_peer)
+
+fn tls_socket_read(handle: int, max_bytes: int) -> string:
+    return net_tls_read(handle, max_bytes)
+
+fn tls_socket_write(handle: int, data: string) -> int:
+    return net_tls_write(handle, data)
+
+fn tls_socket_close(handle: int):
+    net_tls_close(handle)
