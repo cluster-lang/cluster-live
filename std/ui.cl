@@ -8,3 +8,4 @@ import src/core/theme.cl
 import src/render/html.cl
 import src/render/android.cl
 import src/render/swiftui.cl
+import src/render/native.cl
